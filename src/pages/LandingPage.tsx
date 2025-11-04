@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   CheckCircle,
   XCircle,
@@ -393,10 +394,15 @@ export function LandingPage() {
                 Built for Sales Managers & SDR Teams
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none">
+              <motion.h1
+                className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
                 Rekindle Pipeline.{' '}
                 <span className="text-[#FF6B35]">Only Pay When The Meeting is Booked.</span>
-              </h1>
+              </motion.h1>
 
               <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
                 Stop letting £50,000 in valuable acquisition spend rot in your CRM. Our AI automatically finds the exact timing and personalized hook to convert dormant leads into high-quality, booked meetings—guaranteed.
