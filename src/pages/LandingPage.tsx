@@ -464,17 +464,17 @@ export function LandingPage() {
             </div>
 
             <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
-              <div className="text-center">
+              <div className="text-center animate-fade-in-scale delay-100 opacity-0">
                 <div className="text-4xl font-bold text-[#FF6B35] mb-2">15.2%</div>
                 <div className="text-sm text-gray-400">Avg Meeting Rate</div>
                 <div className="text-xs text-gray-500">vs. 6-8% industry</div>
               </div>
-              <div className="text-center">
+              <div className="text-center animate-fade-in-scale delay-200 opacity-0">
                 <div className="text-4xl font-bold text-[#FF6B35] mb-2">7-10x</div>
                 <div className="text-sm text-gray-400">ROI</div>
                 <div className="text-xs text-gray-500">Avg customer return</div>
               </div>
-              <div className="text-center">
+              <div className="text-center animate-fade-in-scale delay-300 opacity-0">
                 <div className="text-4xl font-bold text-[#FF6B35] mb-2">24hrs</div>
                 <div className="text-sm text-gray-400">To first campaign</div>
                 <div className="text-xs text-gray-500">From signup to live</div>
