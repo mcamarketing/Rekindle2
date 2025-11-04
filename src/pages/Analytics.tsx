@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import { supabase } from '../lib/supabase';
+import { apiClient, checkBackendHealth } from '../lib/api';
 import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Activity, TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 
@@ -24,10 +25,20 @@ export function Analytics() {
   const [tasksHistory, setTasksHistory] = useState<TasksData[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('24h');
+  const [useBackend, setUseBackend] = useState(false);
+
+  useEffect(() => {
+    checkBackend();
+  }, []);
 
   useEffect(() => {
     loadAnalytics();
-  }, [timeRange]);
+  }, [timeRange, useBackend]);
+
+  const checkBackend = async () => {
+    const isHealthy = await checkBackendHealth();
+    setUseBackend(isHealthy);
+  };
 
   const loadAnalytics = async () => {
     setLoading(true);

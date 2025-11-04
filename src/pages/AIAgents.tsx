@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import { supabase } from '../lib/supabase';
+import { apiClient, checkBackendHealth } from '../lib/api';
 import { Cpu, Activity, AlertCircle, CheckCircle, Clock, Zap, TrendingUp } from 'lucide-react';
 
 interface Agent {
@@ -28,38 +29,74 @@ export function AIAgents() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [metrics, setMetrics] = useState<Record<string, AgentMetrics>>({});
   const [loading, setLoading] = useState(true);
+  const [useBackend, setUseBackend] = useState(false);
 
   useEffect(() => {
+    checkBackend();
     loadAgents();
     const interval = setInterval(loadAgents, 10000);
     return () => clearInterval(interval);
   }, []);
 
+  const checkBackend = async () => {
+    const isHealthy = await checkBackendHealth();
+    setUseBackend(isHealthy);
+    if (isHealthy) {
+      console.log('✅ Using backend API');
+    } else {
+      console.log('📊 Using direct Supabase connection');
+    }
+  };
+
   const loadAgents = async () => {
     try {
-      const { data: agentsData, error: agentsError } = await supabase
-        .from('agents')
-        .select('*')
-        .order('name');
+      if (useBackend) {
+        // Use backend API
+        const agentsResponse = await apiClient.getAgents();
 
-      if (agentsError) throw agentsError;
+        if (agentsResponse.success && agentsResponse.data) {
+          const agentsData = agentsResponse.data as Agent[];
+          setAgents(agentsData);
 
-      const { data: metricsData, error: metricsError } = await supabase
-        .from('agent_metrics')
-        .select('*')
-        .order('recorded_at', { ascending: false });
-
-      if (metricsError) throw metricsError;
-
-      const latestMetrics: Record<string, AgentMetrics> = {};
-      metricsData?.forEach(metric => {
-        if (!latestMetrics[metric.agent_id]) {
-          latestMetrics[metric.agent_id] = metric;
+          // Load metrics for each agent
+          const latestMetrics: Record<string, AgentMetrics> = {};
+          for (const agent of agentsData) {
+            const metricsResponse = await apiClient.getAgentMetrics(agent.id, 1);
+            if (metricsResponse.success && metricsResponse.data) {
+              const metricsArray = metricsResponse.data as AgentMetrics[];
+              if (metricsArray.length > 0) {
+                latestMetrics[agent.id] = metricsArray[0];
+              }
+            }
+          }
+          setMetrics(latestMetrics);
         }
-      });
+      } else {
+        // Fallback to direct Supabase
+        const { data: agentsData, error: agentsError } = await supabase
+          .from('agents')
+          .select('*')
+          .order('name');
 
-      setAgents(agentsData || []);
-      setMetrics(latestMetrics);
+        if (agentsError) throw agentsError;
+
+        const { data: metricsData, error: metricsError } = await supabase
+          .from('agent_metrics')
+          .select('*')
+          .order('recorded_at', { ascending: false });
+
+        if (metricsError) throw metricsError;
+
+        const latestMetrics: Record<string, AgentMetrics> = {};
+        metricsData?.forEach(metric => {
+          if (!latestMetrics[metric.agent_id]) {
+            latestMetrics[metric.agent_id] = metric;
+          }
+        });
+
+        setAgents(agentsData || []);
+        setMetrics(latestMetrics);
+      }
     } catch (error) {
       console.error('Error loading agents:', error);
     } finally {
