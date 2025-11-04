@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Navigation } from '../components/Navigation';
-import { TiltCard } from '../components/TiltCard';
-import { AnimatedCounter } from '../components/AnimatedCounter';
 import { RippleButton } from '../components/RippleButton';
 import { Users, TrendingUp, Mail, Plus, LayoutDashboard, ArrowUp, ArrowDown } from 'lucide-react';
 
@@ -105,17 +102,12 @@ export function Dashboard() {
       <Navigation currentPage="dashboard" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
+        <div className="mb-8 animate-fade-in">
           <h1 className="text-3xl font-bold text-gray-900">
             Welcome back{user?.email ? `, ${user.email.split('@')[0]}` : ''}!
           </h1>
           <p className="text-gray-600 mt-2">Here's what's happening with your lead revival campaigns</p>
-        </motion.div>
+        </div>
 
         {loading ? (
           <div className="flex justify-center py-16">
@@ -127,110 +119,74 @@ export function Dashboard() {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {statCards.map((stat, index) => (
-                <TiltCard key={stat.title}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 p-8 h-full"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                          {stat.title}
-                        </p>
-                        <p className="text-4xl font-bold text-gray-900 mt-3">
-                          <AnimatedCounter
-                            value={stat.value}
-                            suffix={stat.suffix}
-                            duration={1.5}
-                          />
-                        </p>
-                        {stat.trend !== undefined && (
-                          <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.8 + index * 0.1 }}
-                            className="flex items-center gap-1 mt-2"
-                          >
-                            {stat.trend > 0 ? (
-                              <ArrowUp className="w-4 h-4 text-green-600" />
-                            ) : (
-                              <ArrowDown className="w-4 h-4 text-red-600" />
-                            )}
-                            <span className={`text-sm font-medium ${
-                              stat.trend > 0 ? 'text-green-600' : 'text-red-600'
-                            }`}>
-                              {Math.abs(stat.trend)}% vs last month
-                            </span>
-                          </motion.div>
-                        )}
-                      </div>
-                      <motion.div
-                        whileHover={{ rotate: 360, scale: 1.1 }}
-                        transition={{ duration: 0.5 }}
-                        className={`p-4 bg-gradient-to-br ${stat.bg} rounded-xl`}
-                      >
-                        <stat.icon className={`w-8 h-8 ${stat.iconColor}`} />
-                      </motion.div>
+              {statCards.map((stat) => (
+                <div
+                  key={stat.title}
+                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-8 h-full animate-fade-in hover:scale-105"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        {stat.title}
+                      </p>
+                      <p className="text-4xl font-bold text-gray-900 mt-3">
+                        {stat.value}{stat.suffix || ''}
+                      </p>
+                      {stat.trend !== undefined && (
+                        <div className="flex items-center gap-1 mt-2">
+                          {stat.trend > 0 ? (
+                            <ArrowUp className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <ArrowDown className="w-4 h-4 text-red-600" />
+                          )}
+                          <span className={`text-sm font-medium ${
+                            stat.trend > 0 ? 'text-green-600' : 'text-red-600'
+                          }`}>
+                            {Math.abs(stat.trend)}% vs last month
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </motion.div>
-                </TiltCard>
+                    <div className={`p-4 bg-gradient-to-br ${stat.bg} rounded-xl transition-transform hover:rotate-12`}>
+                      <stat.icon className={`w-8 h-8 ${stat.iconColor}`} />
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white rounded-xl shadow-md p-8"
-            >
+            <div className="bg-white rounded-xl shadow-md p-8 animate-fade-in">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <RippleButton
-                    onClick={() => navigate('/leads/import')}
-                    variant="secondary"
-                    className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 group"
-                  >
-                    <Plus className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
-                    <span className="font-semibold text-gray-700 group-hover:text-primary-600">Import Leads</span>
-                  </RippleButton>
-                </motion.div>
+                <button
+                  onClick={() => navigate('/leads/import')}
+                  className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all hover:scale-105 group"
+                >
+                  <Plus className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">Import Leads</span>
+                </button>
 
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <RippleButton
-                    onClick={() => navigate('/campaigns/create')}
-                    variant="secondary"
-                    className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 group"
-                  >
-                    <Mail className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
-                    <span className="font-semibold text-gray-700 group-hover:text-primary-600">Create Campaign</span>
-                  </RippleButton>
-                </motion.div>
+                <button
+                  onClick={() => navigate('/campaigns/create')}
+                  className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all hover:scale-105 group"
+                >
+                  <Mail className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">Create Campaign</span>
+                </button>
 
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <RippleButton
-                    onClick={() => navigate('/leads')}
-                    variant="secondary"
-                    className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 group"
-                  >
-                    <Users className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
-                    <span className="font-semibold text-gray-700 group-hover:text-primary-600">View All Leads</span>
-                  </RippleButton>
-                </motion.div>
+                <button
+                  onClick={() => navigate('/leads')}
+                  className="w-full flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all hover:scale-105 group"
+                >
+                  <Users className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">View All Leads</span>
+                </button>
               </div>
-            </motion.div>
+            </div>
 
             {stats.totalLeads === 0 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="mt-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl shadow-lg p-10 text-white"
-              >
-                <h2 className="text-2xl font-bold mb-4">🚀 Get Started with Rekindle</h2>
+              <div className="mt-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl shadow-lg p-10 text-white animate-fade-in">
+                <h2 className="text-2xl font-bold mb-4">Get Started with Rekindle</h2>
                 <p className="mb-6 text-white/90">
                   Start reviving your dormant leads in 3 simple steps:
                 </p>
@@ -240,33 +196,26 @@ export function Dashboard() {
                     'Create your first revival campaign with AI-powered messaging',
                     'Watch your leads come back to life with automated follow-ups'
                   ].map((step, index) => (
-                    <motion.li
+                    <li
                       key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.8 + index * 0.1 }}
-                      className="flex items-start gap-3"
+                      className="flex items-start gap-3 animate-slide-in"
+                      style={{ animationDelay: `${index * 100}ms` }}
                     >
                       <span className="flex-shrink-0 w-6 h-6 bg-white text-[#FF6B35] rounded-full flex items-center justify-center font-bold text-sm">
                         {index + 1}
                       </span>
                       <span>{step}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ol>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <RippleButton
+                  onClick={() => navigate('/leads/import')}
+                  variant="secondary"
+                  className="mt-8 bg-white text-primary-600 hover:bg-gray-50"
                 >
-                  <RippleButton
-                    onClick={() => navigate('/leads/import')}
-                    variant="secondary"
-                    className="mt-8 bg-white text-primary-600 hover:bg-gray-50"
-                  >
-                    Import Your First Leads
-                  </RippleButton>
-                </motion.div>
-              </motion.div>
+                  Import Your First Leads
+                </RippleButton>
+              </div>
             )}
           </>
         )}
