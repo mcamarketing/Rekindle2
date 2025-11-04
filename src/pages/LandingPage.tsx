@@ -394,8 +394,8 @@ export function LandingPage() {
                 Built for Sales Managers & SDR Teams
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-6">
-                <span className="bg-gradient-to-r from-white via-orange-200 to-white bg-clip-text text-transparent">
+              <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-6 animate-fade-in-up">
+                <span className="bg-gradient-to-r from-white via-orange-200 to-white bg-clip-text text-transparent animate-gradient">
                   Your £100,000s in Lead Acquisition Spend is Wasted.
                 </span>
                 {' '}
