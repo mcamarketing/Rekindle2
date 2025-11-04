@@ -85,8 +85,8 @@ export function LandingPage() {
       id: 'email',
       name: 'Email',
       icon: Mail,
-      shortDesc: 'Personalized, researched',
-      description: 'AI-researched subject lines that reference recent company news, job changes, funding rounds, and tech stack updates. Each email is unique and contextual.',
+      shortDesc: 'Highly contextual',
+      description: 'Highly contextual and personalized. AI-researched subject lines that reference recent company news, job changes, funding rounds. Each email is unique.',
       gradient: 'from-blue-900/30 to-blue-800/20',
       border: 'border-blue-700/50',
       activeBorder: 'border-blue-500',
@@ -97,8 +97,8 @@ export function LandingPage() {
       id: 'sms',
       name: 'SMS',
       icon: MessageSquare,
-      shortDesc: 'High open rate',
-      description: '98% open rate within 3 minutes. Perfect for time-sensitive follow-ups and quick questions. Short, punchy messages that get responses.',
+      shortDesc: 'Capture attention',
+      description: 'Capture executive attention where they read. 98% open rate within 3 minutes. Perfect for time-sensitive follow-ups. Short, punchy messages.',
       gradient: 'from-green-900/30 to-green-800/20',
       border: 'border-green-700/50',
       activeBorder: 'border-green-500',
@@ -110,7 +110,7 @@ export function LandingPage() {
       name: 'WhatsApp',
       icon: MessageCircle,
       shortDesc: 'Where execs read',
-      description: 'Perfect for international leads and busy executives. Voice notes, documents, and casual touchpoints. Works great in Europe and APAC markets.',
+      description: 'Capture executive attention where they read. Perfect for international leads. Voice notes, documents, and casual touchpoints work great in Europe and APAC.',
       gradient: 'from-emerald-900/30 to-emerald-800/20',
       border: 'border-emerald-700/50',
       activeBorder: 'border-emerald-500',
@@ -122,7 +122,7 @@ export function LandingPage() {
       name: 'Push',
       icon: Bell,
       shortDesc: 'Mobile alerts',
-      description: 'Mobile app push notifications for leads who have downloaded your app. Instant delivery, high visibility, perfect for re-engagement.',
+      description: 'Mobile alerts (if applicable via integration). Instant delivery, high visibility when the lead is most engaged with mobile device.',
       gradient: 'from-purple-900/30 to-purple-800/20',
       border: 'border-purple-700/50',
       activeBorder: 'border-purple-500',
@@ -133,8 +133,8 @@ export function LandingPage() {
       id: 'voicemail',
       name: 'Voicemail',
       icon: Phone,
-      shortDesc: 'AI voice',
-      description: 'AI-generated voice messages that sound natural and personalized. Dropped directly to voicemail (no ringing). Great for final touchpoints.',
+      shortDesc: 'Human touch',
+      description: 'AI voice drops for the human touch. Natural and personalized voice messages dropped directly to voicemail (no ringing). Perfect final touchpoint.',
       gradient: 'from-orange-900/30 to-orange-800/20',
       border: 'border-orange-700/50',
       activeBorder: 'border-orange-500',
@@ -197,21 +197,32 @@ export function LandingPage() {
               </div>
 
               <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none">
-                You spent £5,000 acquiring those leads.{' '}
-                <span className="text-[#FF6B35]">They went cold.</span>{' '}
-                What if they're ready now?
+                Rekindle Pipeline.{' '}
+                <span className="text-[#FF6B35]">Only Pay When The Meeting is Booked.</span>
               </h1>
 
               <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-                Rekindle uses AI to automatically revive your dormant leads. Only pay when they book meetings.
+                Stop letting £50,000 in valuable acquisition spend rot in your CRM. Our AI automatically finds the exact timing and personalized hook to convert dormant leads into high-quality, booked meetings—guaranteed.
               </p>
 
-              <div className="inline-flex items-center gap-2 bg-[#242938] px-4 py-2 rounded-full border border-gray-700 mb-8">
-                <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                <span className="text-gray-300">4.9/5 from 300+ businesses</span>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-300 mb-8">
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                  <span>4.9/5 from 300+ businesses</span>
+                </div>
+                <span className="text-gray-600">|</span>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-green-400" />
+                  <span>SOC 2 Type II Certified</span>
+                </div>
+                <span className="text-gray-600">|</span>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-green-400" />
+                  <span>GDPR Compliant</span>
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-4 justify-center mb-6">
+              <div className="flex flex-wrap gap-4 justify-center mb-4">
                 <Button onClick={() => navigate('/signup')}>
                   Revive Your First 50 Leads Free <ArrowRight className="inline w-5 h-5 ml-2" />
                 </Button>
@@ -219,6 +230,10 @@ export function LandingPage() {
                   Watch 2-Min Demo
                 </Button>
               </div>
+
+              <p className="text-xs text-gray-500 text-center mb-2">
+                No Credit Card Required
+              </p>
 
               <p className="text-sm text-gray-400 text-center mb-8">
                 Trusted by 50+ high-growth sales teams • Integrates with Salesforce, HubSpot, Outreach
@@ -240,10 +255,10 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-16">
+            <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
               <div className="text-center">
                 <div className="text-4xl font-bold text-[#FF6B35] mb-2">15.2%</div>
-                <div className="text-sm text-gray-400">Avg meeting rate</div>
+                <div className="text-sm text-gray-400">Avg Meeting Rate</div>
                 <div className="text-xs text-gray-500">vs. 6-8% industry</div>
               </div>
               <div className="text-center">
@@ -252,7 +267,7 @@ export function LandingPage() {
                 <div className="text-xs text-gray-500">Avg customer return</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-[#FF6B35] mb-2">48hrs</div>
+                <div className="text-4xl font-bold text-[#FF6B35] mb-2">24hrs</div>
                 <div className="text-sm text-gray-400">To first campaign</div>
                 <div className="text-xs text-gray-500">From signup to live</div>
               </div>
@@ -275,9 +290,9 @@ export function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="THE PROBLEM"
-              subtitle="You spent £5,000 acquiring 1,000 leads. 850 went cold. That's £42,500 in wasted acquisition spend just... sitting there."
+              subtitle="You spent thousands acquiring 1,000 leads. 850 said 'not now' or ghosted. That's a massive, hidden liability of wasted spend just sitting there—and it represents millions in lost opportunity."
             >
-              The £50,000 Problem Hiding in Your CRM
+              The £50,000 Problem Hiding in Your Pipeline
             </SectionTitle>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -287,17 +302,17 @@ export function LandingPage() {
                   You Spent on Acquisition
                 </div>
                 <div className="text-gray-400">
-                  £5 per lead × 1,000 leads = £5,000 invested
+                  Initial investment
                 </div>
               </div>
 
               <div className="bg-gradient-to-br from-orange-900/30 to-orange-800/20 rounded-2xl p-8 border-2 border-orange-700/50">
                 <div className="text-5xl font-bold text-orange-400 mb-2">850</div>
                 <div className="text-lg font-semibold text-white mb-2">
-                  Leads Went Cold
+                  Leads Went Dormant
                 </div>
                 <div className="text-gray-400">
-                  Never replied, ghosted, or said "not now"
+                  Costly inaction
                 </div>
               </div>
 
@@ -307,7 +322,7 @@ export function LandingPage() {
                   Lost Revenue Potential
                 </div>
                 <div className="text-gray-400">
-                  If even 10% converted at £6K ACV
+                  The prize you're missing
                 </div>
               </div>
             </div>
@@ -318,9 +333,13 @@ export function LandingPage() {
         <section className="relative py-20 px-4 bg-[#1F2430]" id="how-it-works">
           <div className="absolute inset-0 bg-[#FF6B35] opacity-5 blur-3xl"></div>
           <div className="max-w-7xl mx-auto relative z-10">
-            <SectionTitle eyebrow="HOW REKINDLE WORKS" subtitle="The 3-Step AI Research Engine: Identify, Personalize, Deploy">
-              AI Does the Heavy Lifting. You Book the Meetings.
+            <SectionTitle eyebrow="HOW REKINDLE WORKS" subtitle="We don't just send emails. We deploy a multi-channel, performance-based engine that only engages leads when the timing is perfect.">
+              AI Does the Heavy Lifting. You Close the Revenue.
             </SectionTitle>
+
+            <h3 className="text-2xl font-bold text-center mb-12 text-[#FF6B35]">
+              The 4-Step Revenue Engine: Identify Intent, Personalize, Deploy, Pay-for-Result
+            </h3>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
               <div className="bg-[#242938] rounded-2xl p-8 border border-gray-700 hover:border-[#FF6B35] transition-all">
@@ -328,9 +347,9 @@ export function LandingPage() {
                   <Upload className="w-8 h-8 text-[#FF6B35]" />
                 </div>
                 <div className="text-sm font-bold text-[#FF6B35] mb-2">STEP 1</div>
-                <h3 className="text-xl font-bold mb-3">Upload Dead Leads</h3>
+                <h3 className="text-xl font-bold mb-3">Upload Your Coldest Leads</h3>
                 <p className="text-gray-400 text-sm">
-                  CSV, CRM sync, or Google Sheets. Takes 2 minutes.
+                  Secure sync via CRM (Salesforce, HubSpot) or simple CSV. Takes 2 minutes.
                 </p>
               </div>
 
@@ -339,9 +358,9 @@ export function LandingPage() {
                   <Brain className="w-8 h-8 text-[#FF6B35]" />
                 </div>
                 <div className="text-sm font-bold text-[#FF6B35] mb-2">STEP 2</div>
-                <h3 className="text-xl font-bold mb-3">AI Researches EVERY Lead</h3>
+                <h3 className="text-xl font-bold mb-3">Intelligent Engine Pinpoints Buying Intent</h3>
                 <p className="text-gray-400 text-sm">
-                  LinkedIn activity, company news, job changes, tech stack. Finds "revival hooks."
+                  AI analyzes thousands of data points—funding, hiring, job changes, news—to find the specific, urgent reason to re-engage them right now.
                 </p>
               </div>
 
@@ -350,9 +369,9 @@ export function LandingPage() {
                   <MessageSquare className="w-8 h-8 text-[#FF6B35]" />
                 </div>
                 <div className="text-sm font-bold text-[#FF6B35] mb-2">STEP 3</div>
-                <h3 className="text-xl font-bold mb-3">Personalized Messages</h3>
+                <h3 className="text-xl font-bold mb-3">Hyper-Personalized Outreach</h3>
                 <p className="text-gray-400 text-sm">
-                  Not templates. References specific events: "Congrats on Series B!"
+                  Messages reference specific, timely events. Not a template, but a relevant, compelling reason for them to take the meeting.
                 </p>
               </div>
 
@@ -361,23 +380,27 @@ export function LandingPage() {
                   <Calendar className="w-8 h-8 text-[#FF6B35]" />
                 </div>
                 <div className="text-sm font-bold text-[#FF6B35] mb-2">STEP 4</div>
-                <h3 className="text-xl font-bold mb-3">Meetings Get Booked</h3>
+                <h3 className="text-xl font-bold mb-3">Revenue-Ready Meetings Booked</h3>
                 <p className="text-gray-400 text-sm">
-                  Lead replies → AI sends calendar link → Meeting confirmed → You pay.
+                  Lead replies → AI confirms the meeting → Meeting appears on your calendar → You pay only the performance fee.
                 </p>
               </div>
             </div>
 
             <div className="max-w-6xl mx-auto">
-              <h3 className="text-3xl font-bold text-center mb-12">
-                This is What Makes the Difference
+              <h3 className="text-3xl font-bold text-center mb-4">
+                Comparison: Outcome vs. Effort
               </h3>
+              <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+                Generic templates damage your domain reputation. AI-researched messages establish context and urgency.
+              </p>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-red-900/20 rounded-2xl p-8 border-2 border-red-700/50">
                   <div className="flex items-center gap-2 mb-4">
                     <XCircle className="w-6 h-6 text-red-400" />
                     <div className="font-bold text-red-400">Generic Template (2% Reply Rate)</div>
                   </div>
+                  <p className="text-xs text-gray-500 mb-4">Looks like a template. Low reply rate. Damages domain reputation.</p>
                   <div className="bg-[#242938] rounded-lg p-6 font-mono text-sm border border-gray-700">
                     <div className="text-gray-500 mb-2">Subject: Following up</div>
                     <div className="text-gray-300">
@@ -397,8 +420,9 @@ export function LandingPage() {
                 <div className="bg-green-900/20 rounded-2xl p-8 border-2 border-green-700/50">
                   <div className="flex items-center gap-2 mb-4">
                     <CheckCircle className="w-6 h-6 text-green-400" />
-                    <div className="font-bold text-green-400">AI-Researched (15.2% Reply Rate)</div>
+                    <div className="font-bold text-green-400">Rekindle-Researched (15.2% Reply Rate)</div>
                   </div>
+                  <p className="text-xs text-gray-500 mb-4">References specific news, shows urgency, establishes context. High reply rate.</p>
                   <div className="bg-[#242938] rounded-lg p-6 font-mono text-sm border border-gray-700">
                     <div className="text-gray-500 mb-2">Subject: Congrats on your Series B 🎉</div>
                     <div className="text-gray-300">
@@ -431,9 +455,9 @@ export function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="MULTI-CHANNEL OUTREACH"
-              subtitle="We don't just send one email and give up. Intelligent sequences across 5 channels until they respond or opt-out."
+              subtitle="Intelligent, pre-built sequences across every channel until the lead responds or opts out. Maximize reach without risking your team's bandwidth."
             >
-              One Lead, Five Chances to Connect
+              One Lead, Five Channels. Zero Risk.
             </SectionTitle>
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -536,33 +560,45 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
-              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
-                <div className="flex items-center gap-3 mb-3">
-                  <Zap className="w-6 h-6 text-[#FF6B35]" />
-                  <h4 className="font-bold">Flexibility</h4>
-                </div>
-                <p className="text-sm text-gray-400">
-                  Build dynamic cadences that pause when a hook is found, and restart when the next hook appears.
-                </p>
+            <div className="mt-16 text-center">
+              <h3 className="text-3xl font-bold mb-4">Unrivaled Results</h3>
+              <div className="bg-green-900/20 border border-green-700 rounded-xl p-8 inline-block">
+                <div className="text-5xl font-bold text-[#FF6B35] mb-2">15.2%</div>
+                <div className="text-lg text-gray-300">Meeting Booking Rate</div>
+                <div className="text-sm text-gray-400">(Vs. industry 6-8%)</div>
               </div>
-              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
-                <div className="flex items-center gap-3 mb-3">
-                  <Shield className="w-6 h-6 text-[#FF6B35]" />
-                  <h4 className="font-bold">Compliance</h4>
+            </div>
+
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold text-center mb-8">Enterprise Control & Compliance</h3>
+              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Zap className="w-6 h-6 text-[#FF6B35]" />
+                    <h4 className="font-bold">Flexibility</h4>
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    Build dynamic cadences that pause instantly when a hook is found.
+                  </p>
                 </div>
-                <p className="text-sm text-gray-400">
-                  Built-in compliance checks for SMS and LinkedIn outreach. GDPR and CAN-SPAM ready.
-                </p>
-              </div>
-              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
-                <div className="flex items-center gap-3 mb-3">
-                  <Target className="w-6 h-6 text-[#FF6B35]" />
-                  <h4 className="font-bold">Efficiency</h4>
+                <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Shield className="w-6 h-6 text-[#FF6B35]" />
+                    <h4 className="font-bold">Compliance</h4>
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    Built-in GDPR and CAN-SPAM readiness. Automatic suppression list sync.
+                  </p>
                 </div>
-                <p className="text-sm text-gray-400">
-                  Go multi-channel without manually managing multiple tools. One dashboard, five channels.
-                </p>
+                <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Target className="w-6 h-6 text-[#FF6B35]" />
+                    <h4 className="font-bold">Efficiency</h4>
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    One dashboard to manage all five channels, maximizing SDR efficiency.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -573,9 +609,9 @@ export function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="PERFORMANCE PRICING"
-              subtitle="No flat fees for 'seats' or 'contacts.' You pay a small percentage of your deal value per meeting booked. If they don't convert, you don't pay."
+              subtitle="The most risk-free pricing model in sales. No flat fees for 'seats' or 'contacts.' You only pay a small percentage of your average deal value, and only when a meeting is booked and confirmed."
             >
-              Only Pay When They Book Meetings
+              Performance Pricing: If They Don't Convert, You Don't Pay.
             </SectionTitle>
 
             <div className="grid md:grid-cols-3 gap-8 mb-16">
@@ -756,8 +792,13 @@ export function LandingPage() {
                 </div>
               </div>
 
-              <div className="mt-6 text-center text-sm text-gray-400">
-                <strong className="text-[#FF6B35]">50-75% cheaper than agencies</strong> (£50-200 per meeting)
+              <div className="mt-6 text-center">
+                <p className="text-lg font-bold text-white mb-2">
+                  ROI: <span className="text-[#FF6B35]">{roi}x profit</span>
+                </p>
+                <p className="text-sm text-gray-400">
+                  The Math is Simple: Rekindle is <strong className="text-[#FF6B35]">50-75% cheaper than agencies</strong> and delivers 2x the meeting rate. Your investment is tied directly to confirmed pipeline.
+                </p>
               </div>
 
               <div className="mt-8 bg-[#1A1F2E] border border-gray-700 rounded-xl p-6 text-center">
@@ -778,9 +819,9 @@ export function LandingPage() {
           <div className="max-w-7xl mx-auto relative z-10">
             <SectionTitle
               eyebrow="AUTO-ICP ENGINE"
-              subtitle="After 25 meetings booked, our AI analyzes your winners, extracts your Ideal Customer Profile, and automatically sources 100-1,000 fresh leads matching that exact profile."
+              subtitle="After achieving 25 meetings, our AI automatically analyzes the winning lead data to reverse-engineer your perfect Ideal Customer Profile (ICP), and instantly sources 100-1,000 fresh, verified leads that match."
             >
-              Then We Find MORE Leads Just Like Them
+              Auto-ICP: The Engine That Finds Your Next Best Customer
             </SectionTitle>
 
             <div className="grid md:grid-cols-3 gap-8 mb-16">
@@ -792,8 +833,7 @@ export function LandingPage() {
                   AI Learns Your ICP
                 </h3>
                 <p className="text-gray-400 mb-6 text-sm">
-                  After 25 meetings, AI analyzes: Which industries closed? What company sizes?
-                  Which job titles? Geographic patterns?
+                  Analyzes which industries, sizes, and titles closed. Identifies patterns in your winning leads.
                 </p>
                 <div className="bg-[#242938] rounded-lg p-4 border border-gray-700 font-mono text-xs">
                   <div className="text-[#FF6B35] font-bold mb-2">ICP DETECTED:</div>
@@ -812,11 +852,10 @@ export function LandingPage() {
                   2
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-center">
-                  Sources New Leads
+                  Sources & Verifies
                 </h3>
                 <p className="text-gray-400 mb-6 text-sm">
-                  Scraper finds matches from: Company websites, public directories, job boards.
-                  Validates emails. Enriches with firmographics.
+                  Scraper finds and validates emails for high-score matches. Enriches with firmographics.
                 </p>
                 <div className="bg-green-900/20 rounded-lg p-4 border border-green-700">
                   <div className="grid grid-cols-3 gap-4 text-center text-sm">
@@ -841,11 +880,10 @@ export function LandingPage() {
                   3
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-center">
-                  Auto-Queues Campaign
+                  Auto-Queues for Campaign
                 </h3>
                 <p className="text-gray-400 mb-6 text-sm">
-                  New leads automatically enter revival pipeline. AI generates messages.
-                  Sequences start. Meetings book.
+                  New leads automatically enter the revival sequence. AI generates personalized messages. Meetings book.
                 </p>
                 <div className="bg-[#242938] rounded-lg p-4 border border-gray-700">
                   <div className="space-y-2 text-xs text-gray-400">
