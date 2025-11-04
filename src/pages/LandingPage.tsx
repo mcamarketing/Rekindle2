@@ -16,7 +16,6 @@ import {
   User,
   Briefcase,
   Building2,
-  Flame,
   Star,
   ArrowRight,
   Zap,
@@ -151,11 +150,8 @@ export function LandingPage() {
       {/* NAVIGATION */}
       <nav className="fixed top-0 left-0 right-0 bg-[#1A1F2E]/95 backdrop-blur-sm shadow-xl border-b border-gray-800 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Flame className="w-8 h-8 text-[#FF6B35]" />
-            <span className="text-2xl font-bold">
-              Rekindle<span className="text-[#FF6B35]">.ai</span>
-            </span>
+          <div className="flex items-center gap-3">
+            <img src="/Gemini_Generated_Image_f856maf856maf856.png" alt="Rekindle.ai" className="h-10" />
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -1219,7 +1215,7 @@ export function LandingPage() {
 
               <div className="bg-gradient-to-br from-[#FF6B35] to-[#F7931E] rounded-2xl p-6 border-2 border-[#FF6B35] transform scale-105 shadow-2xl">
                 <div className="text-center mb-4">
-                  <Flame className="w-12 h-12 text-white mx-auto mb-3" />
+                  <img src="/Gemini_Generated_Image_f856maf856maf856.png" alt="Rekindle.ai" className="h-12 mx-auto mb-3" />
                   <h3 className="text-xl font-bold text-white">Rekindle</h3>
                   <div className="text-sm text-orange-100">The Smart Way ⭐</div>
                 </div>
@@ -1437,7 +1433,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Flame className="w-8 h-8 text-[#FF6B35]" />
+              <img src="/Gemini_Generated_Image_f856maf856maf856.png" alt="Rekindle.ai" className="h-8" />
               <span className="text-xl font-bold">Rekindle<span className="text-[#FF6B35]">.ai</span></span>
             </div>
             <p className="text-sm text-gray-400 mb-4">
