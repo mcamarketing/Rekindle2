@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Navigation } from '../components/Navigation';
+import { RippleButton } from '../components/RippleButton';
+import { useToast } from '../components/Toast';
+import { Confetti } from '../components/Confetti';
 import { supabase } from '../lib/supabase';
+import { apiClient } from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Users, Calendar, Send, ArrowRight, CheckCircle2 } from 'lucide-react';
+import {
+  Mail, Users, Calendar, Send, ArrowRight, CheckCircle2,
+  Sparkles, Wand2, Copy, Check, Loader2
+} from 'lucide-react';
 
 interface Lead {
   id: string;
@@ -12,12 +20,24 @@ interface Lead {
   company: string | null;
 }
 
+interface Message {
+  id: string;
+  content: string;
+  sequenceNumber: number;
+}
+
 export function CreateCampaign() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [generatingMessage, setGeneratingMessage] = useState(false);
+  const [messageTone, setMessageTone] = useState<'professional' | 'casual' | 'friendly'>('professional');
+  const [generatedMessage, setGeneratedMessage] = useState('');
+  const [copiedMessage, setCopiedMessage] = useState(false);
 
   const [campaignData, setCampaignData] = useState({
     name: '',
@@ -42,6 +62,11 @@ export function CreateCampaign() {
       setLeads(data || []);
     } catch (error) {
       console.error('Error loading leads:', error);
+      showToast({
+        type: 'error',
+        title: 'Failed to load leads',
+        message: 'Please try again',
+      });
     }
   };
 
@@ -55,10 +80,68 @@ export function CreateCampaign() {
 
   const selectAllLeads = () => {
     setSelectedLeads(leads.map(l => l.id));
+    showToast({
+      type: 'success',
+      title: 'All leads selected',
+      message: `${leads.length} leads added to campaign`,
+    });
   };
 
   const deselectAllLeads = () => {
     setSelectedLeads([]);
+  };
+
+  const generateAIMessage = async () => {
+    if (selectedLeads.length === 0) {
+      showToast({
+        type: 'warning',
+        title: 'No leads selected',
+        message: 'Please select at least one lead first',
+      });
+      return;
+    }
+
+    setGeneratingMessage(true);
+    try {
+      const firstLead = leads.find(l => l.id === selectedLeads[0]);
+
+      const response = await apiClient.generateMessage({
+        leadName: `${firstLead?.first_name} ${firstLead?.last_name}`,
+        company: firstLead?.company || undefined,
+        tone: messageTone,
+        context: campaignData.description,
+      });
+
+      if (response.success && response.data) {
+        setGeneratedMessage(response.data.message || 'Hey there! Just wanted to reach out and see if you\'re interested in reconnecting...');
+        showToast({
+          type: 'success',
+          title: 'Message generated',
+          message: 'AI created a personalized message for your campaign',
+        });
+      } else {
+        throw new Error(response.error);
+      }
+    } catch (error: any) {
+      setGeneratedMessage('Hey there! Just wanted to reach out and see if you\'re interested in reconnecting. Would love to catch up and discuss how we can help your business grow.');
+      showToast({
+        type: 'info',
+        title: 'Using default message',
+        message: 'Backend unavailable - showing example message',
+      });
+    } finally {
+      setGeneratingMessage(false);
+    }
+  };
+
+  const copyMessage = () => {
+    navigator.clipboard.writeText(generatedMessage);
+    setCopiedMessage(true);
+    showToast({
+      type: 'success',
+      title: 'Copied to clipboard',
+    });
+    setTimeout(() => setCopiedMessage(false), 2000);
   };
 
   const handleCreateCampaign = async () => {
@@ -91,10 +174,23 @@ export function CreateCampaign() {
 
       if (leadsError) throw leadsError;
 
-      navigate('/dashboard');
+      setShowConfetti(true);
+      showToast({
+        type: 'success',
+        title: 'Campaign created successfully!',
+        message: `Your campaign "${campaignData.name}" is ready to launch`,
+      });
+
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } catch (error: any) {
       console.error('Error creating campaign:', error);
-      alert(error.message || 'Failed to create campaign');
+      showToast({
+        type: 'error',
+        title: 'Failed to create campaign',
+        message: error.message || 'Please try again',
+      });
     } finally {
       setLoading(false);
     }
@@ -121,12 +217,18 @@ export function CreateCampaign() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation currentPage="campaigns" />
+      <Confetti trigger={showConfetti} />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-8"
+        >
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-[#FF6B35] hover:text-[#F7931E] mb-4 inline-flex items-center gap-2"
+            className="text-[#FF6B35] hover:text-[#F7931E] mb-4 inline-flex items-center gap-2 transition-colors"
           >
             ← Back to Dashboard
           </button>
@@ -134,10 +236,14 @@ export function CreateCampaign() {
           <p className="text-gray-600 mt-2">
             Set up a new lead revival campaign
           </p>
-        </div>
+        </motion.div>
 
-        {/* Progress Steps */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="bg-white rounded-lg shadow p-6 mb-8"
+        >
           <div className="flex items-center justify-between">
             {[
               { num: 1, title: 'Campaign Details', icon: Mail },
@@ -146,236 +252,365 @@ export function CreateCampaign() {
             ].map((s, idx) => (
               <div key={s.num} className="flex items-center">
                 <div className="flex flex-col items-center">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                  <motion.div
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: step >= s.num ? 1.1 : 1 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                       step >= s.num
-                        ? 'bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white'
+                        ? 'bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white shadow-lg'
                         : 'bg-gray-200 text-gray-600'
                     }`}
                   >
                     {step > s.num ? (
-                      <CheckCircle2 className="w-6 h-6" />
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 500 }}
+                      >
+                        <CheckCircle2 className="w-6 h-6" />
+                      </motion.div>
                     ) : (
                       <s.icon className="w-6 h-6" />
                     )}
-                  </div>
-                  <span className={`text-sm font-medium mt-2 ${
+                  </motion.div>
+                  <span className={`text-sm font-medium mt-2 transition-colors ${
                     step >= s.num ? 'text-[#FF6B35]' : 'text-gray-600'
                   }`}>
                     {s.title}
                   </span>
                 </div>
                 {idx < 2 && (
-                  <div className={`w-24 h-1 mx-4 ${
-                    step > s.num ? 'bg-[#FF6B35]' : 'bg-gray-200'
-                  }`} />
+                  <motion.div
+                    className={`w-24 h-1 mx-4 rounded transition-all duration-500 ${
+                      step > s.num ? 'bg-[#FF6B35]' : 'bg-gray-200'
+                    }`}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  />
                 )}
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Step Content */}
-        <div className="bg-white rounded-lg shadow p-8 mb-6">
-          {step === 1 && (
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Campaign Details</h2>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-lg shadow p-8 mb-6"
+          >
+            {step === 1 && (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Campaign Details</h2>
 
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Campaign Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={campaignData.name}
-                    onChange={(e) => setCampaignData({ ...campaignData, name: e.target.value })}
-                    placeholder="e.g., Q1 Lead Revival"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Description
-                  </label>
-                  <textarea
-                    value={campaignData.description}
-                    onChange={(e) => setCampaignData({ ...campaignData, description: e.target.value })}
-                    placeholder="Optional campaign description"
-                    rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Total Messages
+                      Campaign Name *
                     </label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={campaignData.total_messages}
-                      onChange={(e) => setCampaignData({ ...campaignData, total_messages: parseInt(e.target.value) || 1 })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      type="text"
+                      value={campaignData.name}
+                      onChange={(e) => setCampaignData({ ...campaignData, name: e.target.value })}
+                      placeholder="e.g., Q1 Lead Revival"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent transition-all"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Number of follow-up messages (1-10)</p>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Days Between Messages
+                      Description
                     </label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="14"
-                      value={campaignData.days_between_messages}
-                      onChange={(e) => setCampaignData({ ...campaignData, days_between_messages: parseInt(e.target.value) || 1 })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+                    <motion.textarea
+                      whileFocus={{ scale: 1.01 }}
+                      value={campaignData.description}
+                      onChange={(e) => setCampaignData({ ...campaignData, description: e.target.value })}
+                      placeholder="Optional campaign description"
+                      rows={3}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent transition-all"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Delay between each message (1-14 days)</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Total Messages
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={campaignData.total_messages}
+                        onChange={(e) => setCampaignData({ ...campaignData, total_messages: parseInt(e.target.value) || 1 })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Number of follow-up messages (1-10)</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Days Between Messages
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="14"
+                        value={campaignData.days_between_messages}
+                        onChange={(e) => setCampaignData({ ...campaignData, days_between_messages: parseInt(e.target.value) || 1 })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Delay between each message (1-14 days)</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {step === 2 && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900">Select Leads</h2>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Choose which leads to include in this campaign
+            {step === 2 && (
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">Select Leads</h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Choose which leads to include in this campaign
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <RippleButton
+                      variant="outline"
+                      size="sm"
+                      onClick={selectAllLeads}
+                    >
+                      Select All
+                    </RippleButton>
+                    <RippleButton
+                      variant="secondary"
+                      size="sm"
+                      onClick={deselectAllLeads}
+                    >
+                      Deselect All
+                    </RippleButton>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg"
+                >
+                  <p className="text-sm text-blue-900">
+                    <strong>{selectedLeads.length}</strong> leads selected
                   </p>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={selectAllLeads}
-                    className="px-4 py-2 text-sm text-[#FF6B35] border border-[#FF6B35] rounded-lg hover:bg-orange-50"
-                  >
-                    Select All
-                  </button>
-                  <button
-                    onClick={deselectAllLeads}
-                    className="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Deselect All
-                  </button>
-                </div>
-              </div>
+                </motion.div>
 
-              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-900">
-                  <strong>{selectedLeads.length}</strong> leads selected
-                </p>
-              </div>
-
-              <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
-                {leads.map((lead) => (
-                  <div
-                    key={lead.id}
-                    onClick={() => toggleLeadSelection(lead.id)}
-                    className={`p-4 flex items-center gap-4 cursor-pointer hover:bg-gray-50 border-b border-gray-200 last:border-0 ${
-                      selectedLeads.includes(lead.id) ? 'bg-orange-50' : ''
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedLeads.includes(lead.id)}
-                      onChange={() => {}}
-                      className="w-5 h-5 text-[#FF6B35] rounded"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900">
-                        {lead.first_name} {lead.last_name}
+                <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
+                  {leads.map((lead, index) => (
+                    <motion.div
+                      key={lead.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.02 }}
+                      onClick={() => toggleLeadSelection(lead.id)}
+                      className={`p-4 flex items-center gap-4 cursor-pointer hover:bg-gray-50 border-b border-gray-200 last:border-0 transition-colors ${
+                        selectedLeads.includes(lead.id) ? 'bg-orange-50' : ''
+                      }`}
+                    >
+                      <motion.input
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        type="checkbox"
+                        checked={selectedLeads.includes(lead.id)}
+                        onChange={() => {}}
+                        className="w-5 h-5 text-[#FF6B35] rounded"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900">
+                          {lead.first_name} {lead.last_name}
+                        </div>
+                        <div className="text-sm text-gray-600">{lead.email}</div>
                       </div>
-                      <div className="text-sm text-gray-600">{lead.email}</div>
+                      {lead.company && (
+                        <div className="text-sm text-gray-500">{lead.company}</div>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-6 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-purple-100 rounded-lg">
+                      <Sparkles className="w-6 h-6 text-purple-600" />
                     </div>
-                    {lead.company && (
-                      <div className="text-sm text-gray-500">{lead.company}</div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-gray-900 mb-2">AI Message Generator</h3>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Let AI create personalized messages for your campaign
+                      </p>
+
+                      <div className="flex gap-2 mb-4">
+                        {(['professional', 'casual', 'friendly'] as const).map((tone) => (
+                          <button
+                            key={tone}
+                            onClick={() => setMessageTone(tone)}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                              messageTone === tone
+                                ? 'bg-purple-600 text-white shadow-md'
+                                : 'bg-white text-gray-700 hover:bg-purple-50'
+                            }`}
+                          >
+                            {tone.charAt(0).toUpperCase() + tone.slice(1)}
+                          </button>
+                        ))}
+                      </div>
+
+                      <RippleButton
+                        variant="primary"
+                        size="sm"
+                        onClick={generateAIMessage}
+                        disabled={generatingMessage || selectedLeads.length === 0}
+                      >
+                        {generatingMessage ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            <Wand2 className="w-4 h-4" />
+                            Generate Message
+                          </>
+                        )}
+                      </RippleButton>
+
+                      {generatedMessage && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          className="mt-4 p-4 bg-white rounded-lg border border-gray-200"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <p className="text-sm font-medium text-gray-700">Generated Message:</p>
+                            <button
+                              onClick={copyMessage}
+                              className="text-purple-600 hover:text-purple-700 transition-colors"
+                            >
+                              {copiedMessage ? (
+                                <Check className="w-4 h-4" />
+                              ) : (
+                                <Copy className="w-4 h-4" />
+                              )}
+                            </button>
+                          </div>
+                          <p className="text-sm text-gray-600 italic">{generatedMessage}</p>
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Review & Launch</h2>
+
+                <div className="space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-gray-50 rounded-lg p-6 space-y-4"
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Campaign Name</p>
+                      <p className="text-lg font-semibold text-gray-900">{campaignData.name}</p>
+                    </div>
+
+                    {campaignData.description && (
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Description</p>
+                        <p className="text-gray-900">{campaignData.description}</p>
+                      </div>
                     )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
-          {step === 3 && (
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Review & Launch</h2>
-
-              <div className="space-y-6">
-                <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Campaign Name</p>
-                    <p className="text-lg font-semibold text-gray-900">{campaignData.name}</p>
-                  </div>
-
-                  {campaignData.description && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Description</p>
-                      <p className="text-gray-900">{campaignData.description}</p>
+                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className="text-center"
+                      >
+                        <p className="text-sm font-medium text-gray-600">Leads</p>
+                        <p className="text-2xl font-bold text-[#FF6B35]">{selectedLeads.length}</p>
+                      </motion.div>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className="text-center"
+                      >
+                        <p className="text-sm font-medium text-gray-600">Messages</p>
+                        <p className="text-2xl font-bold text-[#FF6B35]">{campaignData.total_messages}</p>
+                      </motion.div>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className="text-center"
+                      >
+                        <p className="text-sm font-medium text-gray-600">Frequency</p>
+                        <p className="text-2xl font-bold text-[#FF6B35]">{campaignData.days_between_messages}d</p>
+                      </motion.div>
                     </div>
-                  )}
+                  </motion.div>
 
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Leads</p>
-                      <p className="text-2xl font-bold text-[#FF6B35]">{selectedLeads.length}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Messages</p>
-                      <p className="text-2xl font-bold text-[#FF6B35]">{campaignData.total_messages}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Frequency</p>
-                      <p className="text-2xl font-bold text-[#FF6B35]">{campaignData.days_between_messages}d</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm text-yellow-900">
-                    <strong>Note:</strong> Your campaign will be created as a draft. You can review and activate it from your dashboard.
-                  </p>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-yellow-50 border border-yellow-200 rounded-lg p-4"
+                  >
+                    <p className="text-sm text-yellow-900">
+                      <strong>Note:</strong> Your campaign will be created as a draft. You can review and activate it from your dashboard.
+                    </p>
+                  </motion.div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between">
-          <button
+          <RippleButton
+            variant="secondary"
             onClick={() => step > 1 ? setStep(step - 1) : navigate('/dashboard')}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
             disabled={loading}
           >
             {step === 1 ? 'Cancel' : 'Back'}
-          </button>
+          </RippleButton>
 
           {step < 3 ? (
-            <button
+            <RippleButton
+              variant="primary"
               onClick={() => setStep(step + 1)}
               disabled={!canProceed() || loading}
-              className="px-6 py-3 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white font-semibold rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               Next
               <ArrowRight className="w-5 h-5" />
-            </button>
+            </RippleButton>
           ) : (
-            <button
+            <RippleButton
+              variant="primary"
               onClick={handleCreateCampaign}
               disabled={loading}
-              className="px-6 py-3 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white font-semibold rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {loading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <Loader2 className="w-5 h-5 animate-spin" />
                   Creating...
                 </>
               ) : (
@@ -384,7 +619,7 @@ export function CreateCampaign() {
                   Create Campaign
                 </>
               )}
-            </button>
+            </RippleButton>
           )}
         </div>
       </main>

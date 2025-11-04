@@ -1,5 +1,3 @@
-// API Client for Backend Communication
-
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 interface ApiResponse<T> {
@@ -8,40 +6,101 @@ interface ApiResponse<T> {
   error?: string;
 }
 
+interface RequestOptions extends RequestInit {
+  retries?: number;
+  retryDelay?: number;
+}
+
 class ApiClient {
   private baseUrl: string;
+  private requestCache: Map<string, { data: any; timestamp: number }>;
+  private cacheDuration: number = 30000;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.requestCache = new Map();
+  }
+
+  private async sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  private getCacheKey(endpoint: string, options?: RequestInit): string {
+    return `${endpoint}-${JSON.stringify(options)}`;
+  }
+
+  private getFromCache<T>(key: string): ApiResponse<T> | null {
+    const cached = this.requestCache.get(key);
+    if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
+      return cached.data;
+    }
+    return null;
+  }
+
+  private setCache(key: string, data: any): void {
+    this.requestCache.set(key, { data, timestamp: Date.now() });
   }
 
   private async request<T>(
     endpoint: string,
-    options?: RequestInit
+    options?: RequestOptions
   ): Promise<ApiResponse<T>> {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        ...options,
-        headers: {
-          'Content-Type': 'application/json',
-          ...options?.headers,
-        },
-      });
+    const { retries = 3, retryDelay = 1000, ...fetchOptions } = options || {};
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Request failed');
+    const cacheKey = this.getCacheKey(endpoint, fetchOptions);
+    if (fetchOptions.method === 'GET' || !fetchOptions.method) {
+      const cached = this.getFromCache<T>(cacheKey);
+      if (cached) {
+        return cached;
       }
-
-      return data;
-    } catch (error: any) {
-      console.error('API Error:', error);
-      return {
-        success: false,
-        error: error.message || 'Network error',
-      };
     }
+
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const response = await fetch(`${this.baseUrl}${endpoint}`, {
+          ...fetchOptions,
+          headers: {
+            'Content-Type': 'application/json',
+            ...fetchOptions?.headers,
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status >= 500 && attempt < retries) {
+            await this.sleep(retryDelay * Math.pow(2, attempt));
+            continue;
+          }
+          throw new Error(data.error || `Request failed with status ${response.status}`);
+        }
+
+        if (fetchOptions.method === 'GET' || !fetchOptions.method) {
+          this.setCache(cacheKey, data);
+        }
+
+        return data;
+      } catch (error: any) {
+        lastError = error;
+
+        if (attempt < retries && (error.name === 'TypeError' || error.message.includes('fetch'))) {
+          await this.sleep(retryDelay * Math.pow(2, attempt));
+          continue;
+        }
+
+        if (attempt === retries) {
+          break;
+        }
+      }
+    }
+
+    console.error('API Error after retries:', lastError);
+    return {
+      success: false,
+      error: lastError?.message || 'Network error',
+    };
   }
 
   // Agents
@@ -82,6 +141,46 @@ class ApiClient {
   async getAlerts(isResolved?: boolean) {
     const params = isResolved !== undefined ? `?is_resolved=${isResolved}` : '';
     return this.request(`/alerts${params}`);
+  }
+
+  async createCampaign(campaignData: any) {
+    return this.request('/campaigns/create', {
+      method: 'POST',
+      body: JSON.stringify(campaignData),
+    });
+  }
+
+  async startCampaign(campaignId: string) {
+    return this.request(`/campaigns/${campaignId}/start`, {
+      method: 'POST',
+    });
+  }
+
+  async pauseCampaign(campaignId: string) {
+    return this.request(`/campaigns/${campaignId}/pause`, {
+      method: 'POST',
+    });
+  }
+
+  async generateMessage(data: { leadName: string; company?: string; tone: string; context?: string }) {
+    return this.request('/messages/generate', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async importLeads(leads: any[]) {
+    return this.request('/leads/import', {
+      method: 'POST',
+      body: JSON.stringify({ leads }),
+    });
+  }
+
+  async scoreLeads(leadIds: string[]) {
+    return this.request('/leads/score', {
+      method: 'POST',
+      body: JSON.stringify({ leadIds }),
+    });
   }
 }
 

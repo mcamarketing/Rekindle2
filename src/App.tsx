@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
+import { ToastProvider } from './components/Toast';
 import { LandingPage } from './pages/LandingPage';
 import { SignUp } from './pages/SignUp';
 import { Login } from './pages/Login';
@@ -37,18 +38,21 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-500 via-secondary-500 to-primary-500 flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative">
-            <div className="w-20 h-20 border-4 border-white/30 rounded-full"></div>
-            <div className="absolute inset-0 w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      <ToastProvider>
+        <div className="min-h-screen bg-gradient-to-br from-primary-500 via-secondary-500 to-primary-500 flex items-center justify-center">
+          <div className="text-center">
+            <div className="relative">
+              <div className="w-20 h-20 border-4 border-white/30 rounded-full"></div>
+              <div className="absolute inset-0 w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <p className="text-white font-bold text-lg mt-6 animate-pulse">Loading...</p>
           </div>
-          <p className="text-white font-bold text-lg mt-6 animate-pulse">Loading...</p>
         </div>
-      </div>
+      </ToastProvider>
     );
   }
 
+  const content = (() => {
   if (user) {
     if (route === '/' || route === '/login' || route === '/signup') {
       window.history.pushState({}, '', '/dashboard');
@@ -100,6 +104,9 @@ function App() {
   }
 
   return <LandingPage />;
+  })();
+
+  return <ToastProvider>{content}</ToastProvider>;
 }
 
 export default App;
