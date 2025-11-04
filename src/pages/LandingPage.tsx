@@ -497,6 +497,63 @@ export function LandingPage() {
           </div>
         </section>
 
+        <div className="relative -mt-20 px-4 mb-20">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Card 1 */}
+              <div className="group relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-orange-500/50 transition-all duration-500 hover:scale-105 overflow-hidden animate-scale-in delay-100 opacity-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,107,53,0.1),transparent_50%)]" />
+                <div className="relative">
+                  <div className="text-6xl font-bold bg-gradient-to-br from-orange-400 to-orange-600 bg-clip-text text-transparent mb-3">
+                    15.2%
+                  </div>
+                  <div className="text-white font-semibold text-lg mb-2">
+                    Avg Meeting Rate
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    vs. 6-8% industry
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="group relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-orange-500/50 transition-all duration-500 hover:scale-105 overflow-hidden animate-scale-in delay-200 opacity-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,107,53,0.1),transparent_50%)]" />
+                <div className="relative">
+                  <div className="text-6xl font-bold bg-gradient-to-br from-orange-400 to-orange-600 bg-clip-text text-transparent mb-3">
+                    7-10x
+                  </div>
+                  <div className="text-white font-semibold text-lg mb-2">
+                    ROI
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    Avg customer return
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="group relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-orange-500/50 transition-all duration-500 hover:scale-105 overflow-hidden animate-scale-in delay-300 opacity-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,107,53,0.1),transparent_50%)]" />
+                <div className="relative">
+                  <div className="text-6xl font-bold bg-gradient-to-br from-orange-400 to-orange-600 bg-clip-text text-transparent mb-3">
+                    24hrs
+                  </div>
+                  <div className="text-white font-semibold text-lg mb-2">
+                    To first campaign
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    From signup to live
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* SECTION 2: THE PROBLEM */}
         <section className="py-20 px-4 bg-gradient-to-b from-[#1A1F2E] via-[#242938] to-[#1A1F2E]">
           <div className="max-w-7xl mx-auto">
