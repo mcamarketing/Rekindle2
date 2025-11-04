@@ -37,10 +37,13 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#FF6B35] via-[#F7931E] to-[#FF6B35] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-primary-500 via-secondary-500 to-primary-500 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white font-semibold">Loading...</p>
+          <div className="relative">
+            <div className="w-20 h-20 border-4 border-white/30 rounded-full"></div>
+            <div className="absolute inset-0 w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          <p className="text-white font-bold text-lg mt-6 animate-pulse">Loading...</p>
         </div>
       </div>
     );

@@ -164,11 +164,13 @@ export function LeadImport() {
         </div>
 
         {success && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+          <div className="bg-success-50 border-2 border-success-200 rounded-xl p-5 mb-6 flex items-start gap-4 shadow-md animate-slide-up">
+            <div className="p-2 bg-success-100 rounded-lg">
+              <CheckCircle2 className="w-6 h-6 text-success-600 flex-shrink-0" />
+            </div>
             <div>
-              <h3 className="font-semibold text-green-900">Import successful!</h3>
-              <p className="text-sm text-green-700 mt-1">
+              <h3 className="font-bold text-success-900 text-lg">Import successful!</h3>
+              <p className="text-sm text-success-700 mt-1">
                 Your leads have been imported. Redirecting to leads page...
               </p>
             </div>
@@ -176,12 +178,14 @@ export function LeadImport() {
         )}
 
         {errors.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+          <div className="bg-error-50 border-2 border-error-200 rounded-xl p-5 mb-6 shadow-md animate-slide-up">
+            <div className="flex items-start gap-4">
+              <div className="p-2 bg-error-100 rounded-lg">
+                <AlertCircle className="w-6 h-6 text-error-600 flex-shrink-0" />
+              </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-red-900">Import errors</h3>
-                <ul className="text-sm text-red-700 mt-2 space-y-1">
+                <h3 className="font-bold text-error-900 text-lg">Import errors</h3>
+                <ul className="text-sm text-error-700 mt-2 space-y-1">
                   {errors.map((error, index) => (
                     <li key={index}>• {error}</li>
                   ))}
@@ -189,7 +193,7 @@ export function LeadImport() {
               </div>
               <button
                 onClick={() => setErrors([])}
-                className="text-red-600 hover:text-red-700"
+                className="p-2 text-error-600 hover:text-error-700 hover:bg-error-100 rounded-lg transition-colors duration-200"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -197,7 +201,7 @@ export function LeadImport() {
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div className="bg-white rounded-xl shadow-md p-8 mb-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">CSV Format</h2>
             <p className="text-sm text-gray-600 mb-4">
@@ -214,14 +218,14 @@ export function LeadImport() {
             </div>
             <button
               onClick={downloadTemplate}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm text-[#FF6B35] border border-[#FF6B35] rounded-lg hover:bg-orange-50 transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-600 border-2 border-primary-500 rounded-lg hover:bg-primary-50 hover:shadow-md active:scale-95 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary-100"
             >
               <FileText className="w-4 h-4" />
               Download CSV Template
             </button>
           </div>
 
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+          <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-primary-300 hover:bg-gray-50 transition-all duration-200">
             <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Upload CSV File
@@ -239,8 +243,8 @@ export function LeadImport() {
             />
             <label
               htmlFor="csv-upload"
-              className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white font-semibold rounded-lg transition cursor-pointer ${
-                uploading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+              className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-bold text-base rounded-lg shadow-md transition-all duration-200 cursor-pointer ${
+                uploading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-brand hover:scale-105 active:scale-95'
               }`}
             >
               <Upload className="w-5 h-5" />
@@ -250,7 +254,7 @@ export function LeadImport() {
         </div>
 
         {parsedLeads.length > 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-xl shadow-md p-8 animate-slide-up">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">
@@ -266,14 +270,14 @@ export function LeadImport() {
                     setParsedLeads([]);
                     setErrors([]);
                   }}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-gray-100"
                   disabled={uploading}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleImport}
-                  className="px-6 py-2 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white font-semibold rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-8 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-bold text-base rounded-lg shadow-md hover:shadow-brand hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-primary-100"
                   disabled={uploading}
                 >
                   {uploading ? (

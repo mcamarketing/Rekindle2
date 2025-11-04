@@ -169,8 +169,11 @@ export function Leads() {
 
         {/* Leads List */}
         {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-4 border-[#FF6B35] border-t-transparent rounded-full animate-spin"></div>
+          <div className="flex justify-center py-16">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-primary-200 rounded-full"></div>
+              <div className="absolute inset-0 w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
           </div>
         ) : filteredLeads.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-12 text-center">
@@ -223,10 +226,10 @@ export function Leads() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-gray-50">
+                  <tr key={lead.id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-[#FF6B35] to-[#F7931E] rounded-full flex items-center justify-center">
+                        <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center shadow-md">
                           <span className="text-white font-semibold">
                             {lead.first_name[0]}{lead.last_name[0]}
                           </span>
@@ -262,7 +265,8 @@ export function Leads() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(lead.status)}`}>
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full border ${getStatusColor(lead.status)}`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-current opacity-70"></span>
                         {lead.status.replace('_', ' ')}
                       </span>
                     </td>
@@ -278,14 +282,14 @@ export function Leads() {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => navigate(`/leads/${lead.id}`)}
-                          className="text-[#FF6B35] hover:text-[#F7931E] p-2 rounded hover:bg-orange-50 transition"
+                          className="text-primary-600 hover:text-primary-700 p-2 rounded-lg hover:bg-primary-50 active:scale-95 transition-all duration-200"
                           title="View details"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => deleteLead(lead.id)}
-                          className="text-red-600 hover:text-red-700 p-2 rounded hover:bg-red-50 transition"
+                          className="text-error-600 hover:text-error-700 p-2 rounded-lg hover:bg-error-50 active:scale-95 transition-all duration-200"
                           title="Delete lead"
                         >
                           <Trash2 className="w-4 h-4" />

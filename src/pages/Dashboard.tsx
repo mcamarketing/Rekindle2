@@ -57,11 +57,11 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       <Navigation currentPage="dashboard" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -72,98 +72,101 @@ export function Dashboard() {
 
         {/* Stats Grid */}
         {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-4 border-[#FF6B35] border-t-transparent rounded-full animate-spin"></div>
+          <div className="flex justify-center py-16">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-primary-200 rounded-full"></div>
+              <div className="absolute inset-0 w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
           </div>
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {/* Total Leads */}
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Total Leads</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalLeads}</p>
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Leads</p>
+                    <p className="text-4xl font-bold text-gray-900 mt-3">{stats.totalLeads}</p>
                   </div>
-                  <div className="p-3 bg-blue-100 rounded-full">
-                    <Users className="w-6 h-6 text-blue-600" />
+                  <div className="p-4 bg-gradient-to-br from-info-100 to-info-50 rounded-xl">
+                    <Users className="w-8 h-8 text-info-600" />
                   </div>
                 </div>
               </div>
 
               {/* Active Campaigns */}
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Active Campaigns</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{stats.activeCampaigns}</p>
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Active Campaigns</p>
+                    <p className="text-4xl font-bold text-gray-900 mt-3">{stats.activeCampaigns}</p>
                   </div>
-                  <div className="p-3 bg-green-100 rounded-full">
-                    <Mail className="w-6 h-6 text-green-600" />
+                  <div className="p-4 bg-gradient-to-br from-success-100 to-success-50 rounded-xl">
+                    <Mail className="w-8 h-8 text-success-600" />
                   </div>
                 </div>
               </div>
 
               {/* Response Rate */}
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Response Rate</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{stats.responseRate}%</p>
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Response Rate</p>
+                    <p className="text-4xl font-bold text-gray-900 mt-3">{stats.responseRate}%</p>
                   </div>
-                  <div className="p-3 bg-orange-100 rounded-full">
-                    <TrendingUp className="w-6 h-6 text-orange-600" />
+                  <div className="p-4 bg-gradient-to-br from-primary-100 to-primary-50 rounded-xl">
+                    <TrendingUp className="w-8 h-8 text-primary-600" />
                   </div>
                 </div>
               </div>
 
               {/* Meetings Booked */}
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Meetings Booked</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{stats.meetingsBooked}</p>
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Meetings Booked</p>
+                    <p className="text-4xl font-bold text-gray-900 mt-3">{stats.meetingsBooked}</p>
                   </div>
-                  <div className="p-3 bg-purple-100 rounded-full">
-                    <LayoutDashboard className="w-6 h-6 text-purple-600" />
+                  <div className="p-4 bg-gradient-to-br from-secondary-100 to-secondary-50 rounded-xl">
+                    <LayoutDashboard className="w-8 h-8 text-secondary-600" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <button
                   onClick={() => navigate('/leads/import')}
-                  className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#FF6B35] hover:bg-orange-50 transition"
+                  className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 hover:shadow-md transition-all duration-200 group"
                 >
-                  <Plus className="w-5 h-5 text-[#FF6B35]" />
-                  <span className="font-medium text-gray-700">Import Leads</span>
+                  <Plus className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">Import Leads</span>
                 </button>
 
                 <button
                   onClick={() => navigate('/campaigns/create')}
-                  className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#FF6B35] hover:bg-orange-50 transition"
+                  className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 hover:shadow-md transition-all duration-200 group"
                 >
-                  <Mail className="w-5 h-5 text-[#FF6B35]" />
-                  <span className="font-medium text-gray-700">Create Campaign</span>
+                  <Mail className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">Create Campaign</span>
                 </button>
 
                 <button
                   onClick={() => navigate('/leads')}
-                  className="flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#FF6B35] hover:bg-orange-50 transition"
+                  className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 hover:shadow-md transition-all duration-200 group"
                 >
-                  <Users className="w-5 h-5 text-[#FF6B35]" />
-                  <span className="font-medium text-gray-700">View All Leads</span>
+                  <Users className="w-6 h-6 text-primary-500 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-gray-700 group-hover:text-primary-600">View All Leads</span>
                 </button>
               </div>
             </div>
 
             {/* Getting Started */}
             {stats.totalLeads === 0 && (
-              <div className="mt-8 bg-gradient-to-br from-[#FF6B35] to-[#F7931E] rounded-lg shadow-lg p-8 text-white">
+              <div className="mt-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl shadow-brand-lg p-10 text-white animate-slide-up">
                 <h2 className="text-2xl font-bold mb-4">🚀 Get Started with Rekindle</h2>
                 <p className="mb-6 text-white/90">
                   Start reviving your dormant leads in 3 simple steps:
@@ -184,7 +187,7 @@ export function Dashboard() {
                 </ol>
                 <button
                   onClick={() => navigate('/leads/import')}
-                  className="mt-6 px-6 py-3 bg-white text-[#FF6B35] font-bold rounded-lg hover:bg-gray-100 transition"
+                  className="mt-8 px-8 py-4 bg-white text-primary-600 font-bold text-lg rounded-lg hover:bg-gray-50 hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200"
                 >
                   Import Your First Leads
                 </button>
