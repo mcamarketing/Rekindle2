@@ -33,7 +33,11 @@ export function SignUp() {
     <div className="min-h-screen bg-gradient-to-br from-[#FF6B35] via-[#F7931E] to-[#FF6B35] flex items-center justify-center px-6">
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
-          <img src="/Gemini_Generated_Image_f856maf856maf856.png" alt="Rekindle.ai" className="h-12" />
+          <img
+            src="/Gemini_Generated_Image_f856maf856maf856 copy.png"
+            alt="Rekindle.ai"
+            className="h-12 w-auto"
+          />
         </div>
 
         <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Create your account</h2>
