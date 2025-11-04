@@ -18,7 +18,9 @@ import {
   Building2,
   Flame,
   Star,
-  ArrowRight
+  ArrowRight,
+  Zap,
+  Target
 } from 'lucide-react';
 
 const COLORS = {
@@ -191,7 +193,7 @@ export function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-4xl mx-auto mb-16">
               <div className="inline-block bg-[#FF6B35]/20 border border-[#FF6B35] text-[#FF6B35] px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                Performance-Based Lead Revival
+                Built for Sales Managers & SDR Teams
               </div>
 
               <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none">
@@ -209,7 +211,7 @@ export function LandingPage() {
                 <span className="text-gray-300">4.9/5 from 300+ businesses</span>
               </div>
 
-              <div className="flex flex-wrap gap-4 justify-center mb-8">
+              <div className="flex flex-wrap gap-4 justify-center mb-6">
                 <Button onClick={() => navigate('/signup')}>
                   Revive Your First 50 Leads Free <ArrowRight className="inline w-5 h-5 ml-2" />
                 </Button>
@@ -217,6 +219,10 @@ export function LandingPage() {
                   Watch 2-Min Demo
                 </Button>
               </div>
+
+              <p className="text-sm text-gray-400 text-center mb-8">
+                Trusted by 50+ high-growth sales teams • Integrates with Salesforce, HubSpot, Outreach
+              </p>
 
               <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
                 <div className="flex items-center gap-2">
@@ -312,7 +318,7 @@ export function LandingPage() {
         <section className="relative py-20 px-4 bg-[#1F2430]" id="how-it-works">
           <div className="absolute inset-0 bg-[#FF6B35] opacity-5 blur-3xl"></div>
           <div className="max-w-7xl mx-auto relative z-10">
-            <SectionTitle eyebrow="HOW REKINDLE WORKS">
+            <SectionTitle eyebrow="HOW REKINDLE WORKS" subtitle="The 3-Step AI Research Engine: Identify, Personalize, Deploy">
               AI Does the Heavy Lifting. You Book the Meetings.
             </SectionTitle>
 
@@ -529,6 +535,36 @@ export function LandingPage() {
                 <strong className="text-[#FF6B35]">15.2% meeting booking rate</strong> vs. 6-8% industry
               </div>
             </div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
+              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                <div className="flex items-center gap-3 mb-3">
+                  <Zap className="w-6 h-6 text-[#FF6B35]" />
+                  <h4 className="font-bold">Flexibility</h4>
+                </div>
+                <p className="text-sm text-gray-400">
+                  Build dynamic cadences that pause when a hook is found, and restart when the next hook appears.
+                </p>
+              </div>
+              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                <div className="flex items-center gap-3 mb-3">
+                  <Shield className="w-6 h-6 text-[#FF6B35]" />
+                  <h4 className="font-bold">Compliance</h4>
+                </div>
+                <p className="text-sm text-gray-400">
+                  Built-in compliance checks for SMS and LinkedIn outreach. GDPR and CAN-SPAM ready.
+                </p>
+              </div>
+              <div className="bg-[#1A1F2E] rounded-xl p-6 border border-gray-700">
+                <div className="flex items-center gap-3 mb-3">
+                  <Target className="w-6 h-6 text-[#FF6B35]" />
+                  <h4 className="font-bold">Efficiency</h4>
+                </div>
+                <p className="text-sm text-gray-400">
+                  Go multi-channel without manually managing multiple tools. One dashboard, five channels.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -722,6 +758,15 @@ export function LandingPage() {
 
               <div className="mt-6 text-center text-sm text-gray-400">
                 <strong className="text-[#FF6B35]">50-75% cheaper than agencies</strong> (£50-200 per meeting)
+              </div>
+
+              <div className="mt-8 bg-[#1A1F2E] border border-gray-700 rounded-xl p-6 text-center">
+                <p className="text-gray-300 mb-3">
+                  <strong className="text-white">Our platform is 100% focused on efficiency.</strong> If a lead doesn't respond to a hook, it's recycled for a new, future event—no wasted opportunities.
+                </p>
+                <p className="text-sm text-gray-400">
+                  You only pay when meetings are booked. No meetings = no cost beyond the £99 platform fee.
+                </p>
               </div>
             </div>
           </div>
@@ -1300,10 +1345,19 @@ export function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
               Stop Letting £50,000 Rot in Your CRM
             </h2>
-            <p className="text-xl text-orange-100 mb-12 leading-relaxed">
+            <p className="text-xl text-orange-100 mb-8 leading-relaxed">
               You spent thousands acquiring those leads. They're ready to buy now—they just need
               the right message at the right time. Let AI handle it.
             </p>
+
+            <div className="bg-white/10 backdrop-blur-sm border border-white/30 rounded-2xl px-6 py-4 mb-8 inline-block">
+              <p className="text-lg font-bold">
+                Claim Your 14-Day Free Revival Scan
+              </p>
+              <p className="text-sm text-orange-100">
+                No credit card required • Cancel anytime
+              </p>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
