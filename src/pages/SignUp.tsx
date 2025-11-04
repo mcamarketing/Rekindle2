@@ -34,7 +34,7 @@ export function SignUp() {
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <img
-            src="/images/image.png"
+            src="/images/image copy copy.png"
             alt="Rekindle.ai"
             className="h-16 w-auto"
           />
