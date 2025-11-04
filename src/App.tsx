@@ -9,6 +9,7 @@ import { LeadDetail } from './pages/LeadDetail';
 import { CreateCampaign } from './pages/CreateCampaign';
 import { LeadImport } from './pages/LeadImport';
 import { Billing } from './pages/Billing';
+import { AIAgents } from './pages/AIAgents';
 
 function App() {
   const { user, loading } = useAuth();
@@ -69,6 +70,10 @@ function App() {
 
     if (route === '/billing') {
       return <Billing />;
+    }
+
+    if (route === '/agents') {
+      return <AIAgents />;
     }
 
     if (route === '/dashboard') {

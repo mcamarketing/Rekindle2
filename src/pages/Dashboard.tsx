@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { LayoutDashboard, Users, TrendingUp, Mail, Settings, LogOut, Plus } from 'lucide-react';
+import { Navigation } from '../components/Navigation';
+import { Users, TrendingUp, Mail, Plus, LayoutDashboard } from 'lucide-react';
 
 interface DashboardStats {
   totalLeads: number;
@@ -11,7 +12,7 @@ interface DashboardStats {
 }
 
 export function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalLeads: 0,
     activeCampaigns: 0,
@@ -50,16 +51,6 @@ export function Dashboard() {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      window.history.pushState({}, '', '/');
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
   const navigate = (path: string) => {
     window.history.pushState({}, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
@@ -67,54 +58,7 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img
-                src="/images/image copy copy.png"
-                alt="Rekindle.ai"
-                className="h-10 w-auto"
-              />
-            </div>
-
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center gap-2 text-gray-700 hover:text-[#FF6B35] transition"
-              >
-                <LayoutDashboard className="w-5 h-5" />
-                <span className="font-medium">Dashboard</span>
-              </button>
-
-              <button
-                onClick={() => navigate('/leads')}
-                className="flex items-center gap-2 text-gray-700 hover:text-[#FF6B35] transition"
-              >
-                <Users className="w-5 h-5" />
-                <span className="font-medium">Leads</span>
-              </button>
-
-              <button
-                onClick={() => navigate('/billing')}
-                className="flex items-center gap-2 text-gray-700 hover:text-[#FF6B35] transition"
-              >
-                <Settings className="w-5 h-5" />
-                <span className="font-medium">Billing</span>
-              </button>
-
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition"
-              >
-                <LogOut className="w-5 h-5" />
-                <span className="font-medium">Sign Out</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation currentPage="dashboard" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
