@@ -36,7 +36,7 @@ export function Login() {
           <img
             src="/Gemini_Generated_Image_f856maf856maf856 copy.png"
             alt="Rekindle.ai"
-            className="h-12 w-auto"
+            className="h-24 w-auto"
           />
         </div>
 

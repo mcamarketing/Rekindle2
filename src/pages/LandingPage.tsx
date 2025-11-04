@@ -351,7 +351,7 @@ export function LandingPage() {
             <img
               src="/Gemini_Generated_Image_f856maf856maf856 copy.png"
               alt="Rekindle.ai - Lead Revival Platform"
-              className="h-10 w-auto hover:opacity-90 transition-opacity"
+              className="h-20 md:h-24 w-auto hover:opacity-90 transition-opacity"
             />
           </a>
 
@@ -1318,7 +1318,7 @@ export function LandingPage() {
                   <img
                     src="/Gemini_Generated_Image_f856maf856maf856 copy.png"
                     alt="Rekindle.ai"
-                    className="h-12 w-auto mx-auto mb-3"
+                    className="h-20 w-auto mx-auto mb-3"
                   />
                   <h3 className="text-xl font-bold text-white">Rekindle</h3>
                   <div className="text-sm text-orange-100">The Smart Way ⭐</div>
@@ -1540,7 +1540,7 @@ export function LandingPage() {
               <img
                 src="/Gemini_Generated_Image_f856maf856maf856 copy.png"
                 alt="Rekindle.ai"
-                className="h-8 w-auto"
+                className="h-16 w-auto"
               />
             </div>
             <p className="text-sm text-gray-400 mb-4">
