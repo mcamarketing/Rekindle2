@@ -187,11 +187,12 @@ export function LandingPage() {
             </div>
 
             <div className="bg-[#242938] rounded-2xl border border-gray-700 p-8 shadow-2xl">
-              <div className="aspect-video bg-[#1A1F2E] rounded-xl flex items-center justify-center border border-gray-700">
-                <div className="text-center text-gray-500">
-                  <Calendar className="w-16 h-16 mx-auto mb-4 text-[#FF6B35]" />
-                  <p className="text-sm">Dashboard Preview</p>
-                </div>
+              <div className="aspect-video bg-[#1A1F2E] rounded-xl overflow-hidden border border-gray-700">
+                <img
+                  src="/Gemini_Generated_Image_jkovk9jkovk9jkov.png"
+                  alt="Rekindle Dashboard showing lead revival campaigns, meetings booked, and AI-powered insights"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
