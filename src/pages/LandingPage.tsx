@@ -505,7 +505,7 @@ export function LandingPage() {
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 rounded-2xl p-8 border-2 border-red-700/50">
-                <div className="text-5xl font-bold text-red-400 mb-2">£5,000</div>
+                <div className="text-5xl font-bold text-red-400 mb-2 animate-fade-in-scale opacity-0 delay-100">£5,000</div>
                 <div className="text-lg font-semibold text-white mb-2">
                   You Spent on Acquisition
                 </div>
@@ -515,7 +515,7 @@ export function LandingPage() {
               </div>
 
               <div className="bg-gradient-to-br from-orange-900/30 to-orange-800/20 rounded-2xl p-8 border-2 border-orange-700/50">
-                <div className="text-5xl font-bold text-orange-400 mb-2">850</div>
+                <div className="text-5xl font-bold text-orange-400 mb-2 animate-fade-in-scale opacity-0 delay-200">850</div>
                 <div className="text-lg font-semibold text-white mb-2">
                   Leads Went Dormant
                 </div>
@@ -525,7 +525,7 @@ export function LandingPage() {
               </div>
 
               <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-2xl p-8 border-2 border-gray-600">
-                <div className="text-5xl font-bold text-white mb-2">£50K+</div>
+                <div className="text-5xl font-bold text-white mb-2 animate-fade-in-scale opacity-0 delay-300">£50K+</div>
                 <div className="text-lg font-semibold text-white mb-2">
                   Lost Revenue Potential
                 </div>
