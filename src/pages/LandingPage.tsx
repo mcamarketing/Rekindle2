@@ -427,7 +427,7 @@ export function LandingPage() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4 justify-center mb-4">
+              <div className="flex flex-wrap gap-4 justify-center mb-4 animate-fade-in-up delay-200">
                 <Button onClick={() => navigate('/signup')}>
                   Revive Your First 50 Leads Free <ArrowRight className="inline w-5 h-5 ml-2" />
                 </Button>
