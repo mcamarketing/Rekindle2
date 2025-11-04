@@ -19,7 +19,8 @@ import {
   Star,
   ArrowRight,
   Zap,
-  Target
+  Target,
+  TrendingUp
 } from 'lucide-react';
 
 const COLORS = {
@@ -64,6 +65,197 @@ const SectionTitle = ({ eyebrow, children, subtitle }: { eyebrow?: string; child
   </div>
 );
 
+// Interactive Channel Selector Component
+const InteractiveChannelSelector = ({
+  channels,
+  activeChannel,
+  setActiveChannel
+}: {
+  channels: any[];
+  activeChannel: string;
+  setActiveChannel: (id: string) => void;
+}) => {
+  const colorClasses: Record<string, any> = {
+    blue: { bg: 'from-blue-900/30 to-blue-800/20', border: 'border-blue-700/50', text: 'text-blue-400', active: 'bg-blue-900/50 border-blue-500' },
+    green: { bg: 'from-green-900/30 to-green-800/20', border: 'border-green-700/50', text: 'text-green-400', active: 'bg-green-900/50 border-green-500' },
+    emerald: { bg: 'from-emerald-900/30 to-emerald-800/20', border: 'border-emerald-700/50', text: 'text-emerald-400', active: 'bg-emerald-900/50 border-emerald-500' },
+    orange: { bg: 'from-orange-900/30 to-orange-800/20', border: 'border-orange-700/50', text: 'text-orange-400', active: 'bg-orange-900/50 border-orange-500' },
+    purple: { bg: 'from-purple-900/30 to-purple-800/20', border: 'border-purple-700/50', text: 'text-purple-400', active: 'bg-purple-900/50 border-purple-500' }
+  };
+
+  const activeChannelData = channels.find(c => c.id === activeChannel);
+  if (!activeChannelData) return null;
+
+  return (
+    <>
+      {/* Channel Buttons */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+        {channels.map(channel => {
+          const colors = colorClasses[channel.color];
+          const isActive = activeChannel === channel.id;
+          const Icon = channel.icon;
+
+          return (
+            <button
+              key={channel.id}
+              onClick={() => setActiveChannel(channel.id)}
+              className={`
+                bg-gradient-to-br ${colors.bg} rounded-xl p-6 border-2
+                ${isActive ? colors.active : colors.border}
+                hover:scale-105 transition-all duration-300 cursor-pointer
+                ${isActive ? 'shadow-lg shadow-[#FF6B35]/20' : 'hover:shadow-md'}
+              `}
+            >
+              <Icon className={`w-8 h-8 mx-auto mb-3 ${colors.text}`} />
+              <div className={`font-bold mb-2 ${isActive ? 'text-white' : ''}`}>
+                {channel.name}
+              </div>
+              <div className={`text-xs ${isActive ? 'text-gray-300' : 'text-gray-400'}`}>
+                {channel.shortDesc}
+              </div>
+              {isActive && (
+                <div className="mt-3 text-xs font-semibold text-white">
+                  Selected ✓
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Details Panel */}
+      <div className="max-w-5xl mx-auto bg-[#1A1F2E] rounded-2xl p-8 border-2 border-[#FF6B35]">
+        <div className="flex items-start gap-6">
+          <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClasses[activeChannelData.color].bg} border-2 ${colorClasses[activeChannelData.color].border} flex items-center justify-center flex-shrink-0`}>
+            <activeChannelData.icon className="w-8 h-8 text-white" />
+          </div>
+
+          <div className="flex-1">
+            <h3 className="text-2xl font-bold text-white mb-2">
+              {activeChannelData.name}
+            </h3>
+            <p className="text-gray-400 mb-6">
+              {activeChannelData.description}
+            </p>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-[#242938] rounded-lg p-4 border border-gray-700">
+                <div className="text-2xl font-bold text-[#FF6B35] mb-1">{activeChannelData.stats.open || activeChannelData.stats.meeting}</div>
+                <div className="text-xs text-gray-400">Open Rate</div>
+              </div>
+              <div className="bg-[#242938] rounded-lg p-4 border border-gray-700">
+                <div className="text-2xl font-bold text-[#FF6B35] mb-1">{activeChannelData.stats.reply}</div>
+                <div className="text-xs text-gray-400">Reply Rate</div>
+              </div>
+              <div className="bg-[#242938] rounded-lg p-4 border border-gray-700">
+                <div className="text-2xl font-bold text-[#FF6B35] mb-1">{activeChannelData.stats.meeting}</div>
+                <div className="text-xs text-gray-400">Meeting Rate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+// ROI Calculator Component
+const ROICalculator = ({
+  dealValue,
+  setDealValue,
+  meetingsGoal,
+  setMeetingsGoal,
+  monthlyCost,
+  revenue,
+  roi,
+  profit
+}: {
+  dealValue: number;
+  setDealValue: (val: number) => void;
+  meetingsGoal: number;
+  setMeetingsGoal: (val: number) => void;
+  monthlyCost: number;
+  revenue: number;
+  roi: string;
+  profit: number;
+}) => {
+  return (
+    <div className="max-w-4xl mx-auto bg-[#242938] rounded-2xl p-8 border border-gray-700">
+      <h3 className="text-2xl font-bold text-center mb-8 text-white">
+        Calculate Your ROI in 30 Seconds
+      </h3>
+
+      <div className="space-y-6 mb-8">
+        <div>
+          <label className="block text-sm font-semibold mb-2 text-white">
+            Your Average Deal Value
+          </label>
+          <input
+            type="range"
+            min="500"
+            max="50000"
+            step="500"
+            value={dealValue}
+            onChange={(e) => setDealValue(Number(e.target.value))}
+            className="w-full"
+          />
+          <div className="text-right text-lg font-bold text-[#FF6B35]">
+            £{dealValue.toLocaleString()}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold mb-2 text-white">
+            Meetings Per Month Goal
+          </label>
+          <input
+            type="range"
+            min="10"
+            max="200"
+            step="10"
+            value={meetingsGoal}
+            onChange={(e) => setMeetingsGoal(Number(e.target.value))}
+            className="w-full"
+          />
+          <div className="text-right text-lg font-bold text-[#FF6B35]">
+            {meetingsGoal} meetings
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-green-900/20 border border-green-700 rounded-xl p-6">
+        <div className="grid md:grid-cols-3 gap-6 text-center">
+          <div>
+            <div className="text-sm text-gray-400 mb-1">Monthly Cost</div>
+            <div className="text-2xl font-bold text-white">
+              £{Math.round(monthlyCost).toLocaleString()}
+            </div>
+            <div className="text-xs text-gray-500">
+              (£99 + {meetingsGoal} × £{(dealValue * 0.025).toFixed(0)})
+            </div>
+          </div>
+          <div>
+            <div className="text-sm text-gray-400 mb-1">Revenue (20% close)</div>
+            <div className="text-2xl font-bold text-green-400">
+              £{Math.round(revenue).toLocaleString()}
+            </div>
+            <div className="text-xs text-gray-500">
+              ({Math.round(meetingsGoal * 0.2)} deals × £{dealValue.toLocaleString()})
+            </div>
+          </div>
+          <div>
+            <div className="text-sm text-gray-400 mb-1">ROI</div>
+            <div className="text-2xl font-bold text-green-400">{roi}x</div>
+            <div className="text-xs text-gray-500">
+              £{Math.round(profit).toLocaleString()} profit
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export function LandingPage() {
   const [dealValue, setDealValue] = useState(2500);
   const [meetingsGoal, setMeetingsGoal] = useState(40);
@@ -84,6 +276,7 @@ export function LandingPage() {
       id: 'email',
       name: 'Email',
       icon: Mail,
+      color: 'blue',
       shortDesc: 'Highly contextual',
       description: 'Highly contextual and personalized. AI-researched subject lines that reference recent company news, job changes, funding rounds. Each email is unique.',
       gradient: 'from-blue-900/30 to-blue-800/20',
@@ -96,6 +289,7 @@ export function LandingPage() {
       id: 'sms',
       name: 'SMS',
       icon: MessageSquare,
+      color: 'green',
       shortDesc: 'Capture attention',
       description: 'Capture executive attention where they read. 98% open rate within 3 minutes. Perfect for time-sensitive follow-ups. Short, punchy messages.',
       gradient: 'from-green-900/30 to-green-800/20',
@@ -108,6 +302,7 @@ export function LandingPage() {
       id: 'whatsapp',
       name: 'WhatsApp',
       icon: MessageCircle,
+      color: 'emerald',
       shortDesc: 'Where execs read',
       description: 'Capture executive attention where they read. Perfect for international leads. Voice notes, documents, and casual touchpoints work great in Europe and APAC.',
       gradient: 'from-emerald-900/30 to-emerald-800/20',
@@ -120,6 +315,7 @@ export function LandingPage() {
       id: 'push',
       name: 'Push',
       icon: Bell,
+      color: 'purple',
       shortDesc: 'Mobile alerts',
       description: 'Mobile alerts (if applicable via integration). Instant delivery, high visibility when the lead is most engaged with mobile device.',
       gradient: 'from-purple-900/30 to-purple-800/20',
@@ -132,6 +328,7 @@ export function LandingPage() {
       id: 'voicemail',
       name: 'Voicemail',
       icon: Phone,
+      color: 'orange',
       shortDesc: 'Human touch',
       description: 'AI voice drops for the human touch. Natural and personalized voice messages dropped directly to voicemail (no ringing). Perfect final touchpoint.',
       gradient: 'from-orange-900/30 to-orange-800/20',
@@ -456,59 +653,11 @@ export function LandingPage() {
               One Lead, Five Channels. Zero Risk.
             </SectionTitle>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-              {channels.map((channel) => {
-                const Icon = channel.icon;
-                const isActive = activeChannel === channel.id;
-                return (
-                  <button
-                    key={channel.id}
-                    onClick={() => setActiveChannel(channel.id)}
-                    className={`bg-gradient-to-br ${channel.gradient} rounded-xl p-6 border-2 ${
-                      isActive ? channel.activeBorder : channel.border
-                    } transition-all duration-300 hover:scale-105 cursor-pointer text-left relative ${
-                      isActive ? 'ring-2 ring-offset-2 ring-offset-[#242938]' : ''
-                    }`}
-                    style={isActive ? { borderColor: channel.activeBorder.replace('border-', '') } : {}}
-                  >
-                    <Icon className={`w-8 h-8 ${channel.iconColor} mb-3`} />
-                    <div className="font-bold mb-2 flex items-center gap-2">
-                      {channel.name}
-                      {isActive && <CheckCircle className="w-4 h-4 text-green-400" />}
-                    </div>
-                    <div className="text-xs text-gray-400">{channel.shortDesc}</div>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="max-w-5xl mx-auto bg-[#1A1F2E] rounded-2xl p-8 border border-gray-700 mb-16">
-              <div className="flex items-start gap-4 mb-6">
-                {(() => {
-                  const Icon = selectedChannel.icon;
-                  return <Icon className={`w-8 h-8 ${selectedChannel.iconColor} flex-shrink-0 mt-1`} />;
-                })()}
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-3">{selectedChannel.name}</h3>
-                  <p className="text-gray-300 leading-relaxed">{selectedChannel.description}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
-                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.open}</div>
-                  <div className="text-sm text-gray-400">Open Rate</div>
-                </div>
-                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
-                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.reply}</div>
-                  <div className="text-sm text-gray-400">Reply Rate</div>
-                </div>
-                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
-                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.meeting}</div>
-                  <div className="text-sm text-gray-400">Meeting Rate</div>
-                </div>
-              </div>
-            </div>
+            <InteractiveChannelSelector
+              channels={channels}
+              activeChannel={activeChannel}
+              setActiveChannel={setActiveChannel}
+            />
 
             <div className="max-w-4xl mx-auto bg-[#1A1F2E] rounded-2xl p-8 border border-gray-700">
               <h3 className="text-2xl font-bold text-center mb-8">
@@ -725,86 +874,33 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="max-w-4xl mx-auto bg-[#242938] rounded-2xl p-8 border border-gray-700">
-              <h3 className="text-2xl font-bold text-center mb-8">
-                Calculate Your ROI in 30 Seconds
-              </h3>
+            <ROICalculator
+              dealValue={dealValue}
+              setDealValue={setDealValue}
+              meetingsGoal={meetingsGoal}
+              setMeetingsGoal={setMeetingsGoal}
+              monthlyCost={monthlyCost}
+              revenue={revenue}
+              roi={roi}
+              profit={profit}
+            />
 
-              <div className="space-y-6 mb-8">
-                <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Your Average Deal Value
-                  </label>
-                  <input
-                    type="range"
-                    min="500"
-                    max="50000"
-                    step="500"
-                    value={dealValue}
-                    onChange={(e) => setDealValue(Number(e.target.value))}
-                    className="w-full"
-                  />
-                  <div className="text-right text-lg font-bold text-[#FF6B35]">
-                    £{dealValue.toLocaleString()}
-                  </div>
-                </div>
+            <div className="mt-8 text-center">
+              <p className="text-lg font-bold text-white mb-2">
+                ROI: <span className="text-[#FF6B35]">{roi}x profit</span>
+              </p>
+              <p className="text-sm text-gray-400 max-w-3xl mx-auto">
+                The Math is Simple: Rekindle is <strong className="text-[#FF6B35]">50-75% cheaper than agencies</strong> and delivers 2x the meeting rate. Your investment is tied directly to confirmed pipeline.
+              </p>
+            </div>
 
-                <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Meetings Per Month Goal
-                  </label>
-                  <input
-                    type="range"
-                    min="10"
-                    max="200"
-                    step="10"
-                    value={meetingsGoal}
-                    onChange={(e) => setMeetingsGoal(Number(e.target.value))}
-                    className="w-full"
-                  />
-                  <div className="text-right text-lg font-bold text-[#FF6B35]">
-                    {meetingsGoal} meetings
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-green-900/20 border border-green-700 rounded-xl p-6">
-                <div className="grid md:grid-cols-3 gap-6 text-center">
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">Monthly Cost</div>
-                    <div className="text-2xl font-bold">£{Math.round(monthlyCost).toLocaleString()}</div>
-                    <div className="text-xs text-gray-500">(£99 + {meetingsGoal} × £{(dealValue * 0.025).toFixed(2)})</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">Revenue (20% close)</div>
-                    <div className="text-2xl font-bold text-green-400">£{Math.round(revenue).toLocaleString()}</div>
-                    <div className="text-xs text-gray-500">({Math.round(meetingsGoal * 0.2)} deals × £{dealValue.toLocaleString()})</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">ROI</div>
-                    <div className="text-2xl font-bold text-green-400">{roi}x</div>
-                    <div className="text-xs text-gray-500">£{Math.round(profit).toLocaleString()} profit</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 text-center">
-                <p className="text-lg font-bold text-white mb-2">
-                  ROI: <span className="text-[#FF6B35]">{roi}x profit</span>
-                </p>
-                <p className="text-sm text-gray-400">
-                  The Math is Simple: Rekindle is <strong className="text-[#FF6B35]">50-75% cheaper than agencies</strong> and delivers 2x the meeting rate. Your investment is tied directly to confirmed pipeline.
-                </p>
-              </div>
-
-              <div className="mt-8 bg-[#1A1F2E] border border-gray-700 rounded-xl p-6 text-center">
-                <p className="text-gray-300 mb-3">
-                  <strong className="text-white">Our platform is 100% focused on efficiency.</strong> If a lead doesn't respond to a hook, it's recycled for a new, future event—no wasted opportunities.
-                </p>
-                <p className="text-sm text-gray-400">
-                  You only pay when meetings are booked. No meetings = no cost beyond the £99 platform fee.
-                </p>
-              </div>
+            <div className="mt-8 bg-[#1A1F2E] border border-gray-700 rounded-xl p-6 text-center max-w-4xl mx-auto">
+              <p className="text-gray-300 mb-3">
+                <strong className="text-white">Our platform is 100% focused on efficiency.</strong> If a lead doesn't respond to a hook, it's recycled for a new, future event—no wasted opportunities.
+              </p>
+              <p className="text-sm text-gray-400">
+                You only pay when meetings are booked. No meetings = no cost beyond the £99 platform fee.
+              </p>
             </div>
           </div>
         </section>
@@ -1112,8 +1208,8 @@ export function LandingPage() {
         {/* SECTION 8: COMPETITIVE COMPARISON */}
         <section className="py-20 px-4 bg-gradient-to-b from-[#1A1F2E] to-[#242938]">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle eyebrow="THE ALTERNATIVES DON'T WORK">
-              You Have Three Bad Options. Or One Smart One.
+            <SectionTitle eyebrow="ALTERNATIVES: THE SIMPLE CHOICE">
+              You Have Three Costly Options. Or One Smart, Risk-Free One.
             </SectionTitle>
 
             <div className="grid md:grid-cols-4 gap-6">
