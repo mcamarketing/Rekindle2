@@ -36,19 +36,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
     if (error) throw error;
+
+    // Check if user already exists
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+      throw new Error('User already registered with this email');
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      console.error('Sign in error:', error);
+      throw error;
+    }
+    if (!data.session) {
+      throw new Error('Failed to create session');
+    }
   };
 
   const signOut = async () => {

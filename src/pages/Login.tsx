@@ -23,7 +23,18 @@ export function Login() {
       await signIn(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Login error:', err);
+      if (err instanceof Error) {
+        if (err.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password. Please check your credentials and try again.');
+        } else if (err.message.includes('Email not confirmed')) {
+          setError('Please confirm your email address before signing in.');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

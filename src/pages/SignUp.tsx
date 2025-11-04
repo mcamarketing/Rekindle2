@@ -23,7 +23,18 @@ export function SignUp() {
       await signUp(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Signup error:', err);
+      if (err instanceof Error) {
+        if (err.message.includes('User already registered')) {
+          setError('This email is already registered. Please sign in instead.');
+        } else if (err.message.includes('Password')) {
+          setError('Password must be at least 6 characters long.');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
