@@ -185,7 +185,7 @@ export function LandingPage() {
       <main className="pt-20">
 
         {/* SECTION 1: HERO */}
-        <section className="relative overflow-hidden py-20 px-4">
+        <section className="relative overflow-hidden py-20 px-4 bg-gradient-to-b from-[#1A1F2E] via-[#1F2430] to-[#1A1F2E]">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-[#FF6B35] opacity-20 blur-3xl rounded-full -z-10"></div>
 
           <div className="max-w-7xl mx-auto">
@@ -265,7 +265,7 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 2: THE PROBLEM */}
-        <section className="py-20 px-4 bg-[#242938]">
+        <section className="py-20 px-4 bg-gradient-to-b from-[#1A1F2E] via-[#242938] to-[#1A1F2E]">
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="THE PROBLEM"
@@ -309,8 +309,9 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 3: HOW IT WORKS */}
-        <section className="py-20 px-4 bg-[#1A1F2E]" id="how-it-works">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative py-20 px-4 bg-[#1F2430]" id="how-it-works">
+          <div className="absolute inset-0 bg-[#FF6B35] opacity-5 blur-3xl"></div>
+          <div className="max-w-7xl mx-auto relative z-10">
             <SectionTitle eyebrow="HOW REKINDLE WORKS">
               AI Does the Heavy Lifting. You Book the Meetings.
             </SectionTitle>
@@ -420,7 +421,7 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 4: MULTI-CHANNEL */}
-        <section className="py-20 px-4 bg-[#242938]">
+        <section className="py-20 px-4 bg-gradient-to-b from-[#2A2F3E] to-[#2D3348]">
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="MULTI-CHANNEL OUTREACH"
@@ -532,7 +533,7 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 5: PRICING */}
-        <section className="py-20 px-4 bg-[#1A1F2E]" id="pricing">
+        <section className="py-20 px-4 bg-gradient-to-b from-[#1A1F2E] to-[#1F2430]" id="pricing">
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="PERFORMANCE PRICING"
@@ -727,8 +728,9 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 6: AUTO-ICP */}
-        <section className="py-20 px-4 bg-[#242938]" id="auto-icp">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative py-20 px-4 bg-gradient-to-br from-[#242938] to-[#2A2F3E]" id="auto-icp">
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#FF6B35] opacity-10 blur-3xl rounded-full"></div>
+          <div className="max-w-7xl mx-auto relative z-10">
             <SectionTitle
               eyebrow="AUTO-ICP ENGINE"
               subtitle="After 25 meetings booked, our AI analyzes your winners, extracts your Ideal Customer Profile, and automatically sources 100-1,000 fresh leads matching that exact profile."
@@ -867,7 +869,7 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 7: BRAND CONTROL */}
-        <section className="py-24 px-4 bg-gradient-to-br from-gray-900 to-gray-800">
+        <section className="py-24 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
           <div className="max-w-7xl mx-auto">
             <SectionTitle
               eyebrow="YOUR BRAND. YOUR RULES."
@@ -1029,7 +1031,7 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 8: COMPETITIVE COMPARISON */}
-        <section className="py-20 px-4 bg-[#1A1F2E]">
+        <section className="py-20 px-4 bg-gradient-to-b from-[#1A1F2E] to-[#242938]">
           <div className="max-w-7xl mx-auto">
             <SectionTitle eyebrow="THE ALTERNATIVES DON'T WORK">
               You Have Three Bad Options. Or One Smart One.
@@ -1199,8 +1201,9 @@ export function LandingPage() {
         </section>
 
         {/* SECTION 9: SOCIAL PROOF */}
-        <section className="py-20 px-4 bg-[#242938]">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative py-20 px-4 bg-gradient-to-b from-[#2A2F3E] to-[#2D3348]">
+          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#FF6B35] opacity-10 blur-3xl rounded-full"></div>
+          <div className="max-w-7xl mx-auto relative z-10">
             <SectionTitle eyebrow="TRUSTED BY GROWTH TEAMS">
               Real Results from Real Businesses
             </SectionTitle>
