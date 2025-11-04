@@ -393,7 +393,7 @@ export function LandingPage() {
                 Built for Sales Managers & SDR Teams
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none">
+              <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Rekindle Pipeline.{' '}
                 <span className="text-[#FF6B35]">Only Pay When The Meeting is Booked.</span>
               </h1>
