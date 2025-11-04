@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Plus, Search, Download, Upload, Mail, Phone, Building2, Trash2, Eye } from 'lucide-react';
+import { Plus, Search, Download, Upload, Mail, Phone, Building2, Trash2, Eye, Users } from 'lucide-react';
 
 interface Lead {
   id: string;

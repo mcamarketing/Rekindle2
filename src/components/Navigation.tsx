@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
-import { LayoutDashboard, Users, TrendingUp, Settings, LogOut, Cpu } from 'lucide-react';
+import { LayoutDashboard, Users, TrendingUp, Settings, LogOut, Cpu, BarChart3 } from 'lucide-react';
 
 interface NavigationProps {
   currentPage?: string;
@@ -86,6 +86,18 @@ export function Navigation({ currentPage }: NavigationProps) {
             >
               <Cpu className="w-5 h-5" />
               <span className="font-medium">AI Agents</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/analytics')}
+              className={`flex items-center gap-2 transition ${
+                isActive('analytics')
+                  ? 'text-[#FF6B35] font-semibold'
+                  : 'text-gray-700 hover:text-[#FF6B35]'
+              }`}
+            >
+              <BarChart3 className="w-5 h-5" />
+              <span className="font-medium">Analytics</span>
             </button>
 
             <button

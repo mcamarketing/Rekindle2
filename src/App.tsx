@@ -10,6 +10,7 @@ import { CreateCampaign } from './pages/CreateCampaign';
 import { LeadImport } from './pages/LeadImport';
 import { Billing } from './pages/Billing';
 import { AIAgents } from './pages/AIAgents';
+import { Analytics } from './pages/Analytics';
 
 function App() {
   const { user, loading } = useAuth();
@@ -74,6 +75,10 @@ function App() {
 
     if (route === '/agents') {
       return <AIAgents />;
+    }
+
+    if (route === '/analytics') {
+      return <Analytics />;
     }
 
     if (route === '/dashboard') {
