@@ -407,108 +407,93 @@ export function LandingPage() {
       <main className="pt-20">
 
         {/* SECTION 1: HERO */}
-        <section className="relative overflow-hidden py-20 px-4 bg-gradient-to-b from-[#1A1F2E] via-[#1F2430] to-[#1A1F2E]">
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-[#FF6B35] opacity-20 blur-3xl rounded-full -z-10"></div>
+        <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+          {/* Animated background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,107,53,0.1),transparent_50%)]" />
 
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-4xl mx-auto mb-16">
-              <div className="inline-block bg-[#FF6B35]/20 border border-[#FF6B35] text-[#FF6B35] px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                Built for Sales Managers & SDR Teams
+          {/* Floating orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+
+          <div className="relative max-w-6xl mx-auto text-center">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-8 animate-fade-in-up opacity-0">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-sm text-gray-300 font-medium">Built for Sales Managers & SDR Teams</span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8 animate-fade-in-up delay-100 opacity-0">
+              <span className="bg-gradient-to-r from-white via-orange-100 to-white bg-clip-text text-transparent animate-gradient">
+                Your £100,000s in Lead
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-white via-orange-100 to-white bg-clip-text text-transparent animate-gradient">
+                Acquisition Spend is Wasted.
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent animate-gradient">
+                We Convert Dormant Pipeline
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent animate-gradient">
+                Into Guaranteed Revenue.
+              </span>
+            </h1>
+
+            {/* Subheadline */}
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-12 leading-relaxed animate-fade-in-up delay-200 opacity-0">
+              Stop letting <span className="text-white font-semibold">£50,000 in valuable acquisition spend</span> rot in your CRM. Our AI automatically finds the exact timing and personalized hook to convert dormant leads into high-quality, booked meetings—<span className="text-orange-400 font-semibold">guaranteed</span>.
+            </p>
+
+            {/* Trust bar */}
+            <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-400 mb-12 animate-fade-in-up delay-300 opacity-0">
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[1,2,3,4,5].map(i => (
+                    <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-slate-900 flex items-center justify-center text-xs font-bold text-white">
+                      {i === 3 ? '★' : ''}
+                    </div>
+                  ))}
+                </div>
+                <span className="text-gray-300 font-medium">4.9/5 from 300+ businesses</span>
               </div>
+              <div className="w-px h-4 bg-gray-700" />
+              <span>SOC 2 Type II Certified</span>
+              <div className="w-px h-4 bg-gray-700" />
+              <span>GDPR Compliant</span>
+            </div>
 
-              <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-6 animate-fade-in-up">
-                <span className="bg-gradient-to-r from-white via-orange-200 to-white bg-clip-text text-transparent animate-gradient">
-                  Your £100,000s in Lead Acquisition Spend is Wasted.
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10 animate-fade-in-up delay-400 opacity-0">
+              <a
+                href="/signup"
+                className="group relative bg-gradient-to-r from-orange-500 to-orange-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:shadow-[0_0_60px_rgba(255,107,53,0.6)] transition-all duration-300 hover:scale-105 overflow-hidden"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                <span className="relative z-10 flex items-center gap-2">
+                  Revive Your First 50 Leads Free
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
                 </span>
-                {' '}
-                <span className="text-white">We Convert Dormant Pipeline Into</span>
-                {' '}
-                <span className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] bg-clip-text text-transparent">
-                  Guaranteed Revenue.
-                </span>
-              </h1>
+              </a>
 
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-                Stop letting £50,000 in valuable acquisition spend rot in your CRM. Our AI automatically finds the exact timing and personalized hook to convert dormant leads into high-quality, booked meetings—guaranteed.
-              </p>
-
-              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-300 mb-8">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span>4.9/5 from 300+ businesses</span>
+              <button className="group flex items-center gap-3 px-10 py-5 rounded-full font-bold text-lg bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
                 </div>
-                <span className="text-gray-600">|</span>
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-green-400" />
-                  <span>SOC 2 Type II Certified</span>
-                </div>
-                <span className="text-gray-600">|</span>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-green-400" />
-                  <span>GDPR Compliant</span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-4 justify-center mb-4 animate-fade-in-up delay-200">
-                <Button onClick={() => navigate('/signup')}>
-                  Revive Your First 50 Leads Free <ArrowRight className="inline w-5 h-5 ml-2" />
-                </Button>
-                <Button primary={false}>
-                  Watch 2-Min Demo
-                </Button>
-              </div>
-
-              <p className="text-xs text-gray-500 text-center mb-2">
-                No Credit Card Required
-              </p>
-
-              <p className="text-sm text-gray-400 text-center mb-8">
-                Trusted by 50+ high-growth sales teams • Integrates with Salesforce, HubSpot, Outreach
-              </p>
-
-              <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>No credit card required</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>10-minute setup</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Cancel anytime</span>
-                </div>
-              </div>
+                Watch 2-Min Demo
+              </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
-              <div className="text-center animate-fade-in-scale delay-100 opacity-0">
-                <div className="text-4xl font-bold text-[#FF6B35] mb-2">15.2%</div>
-                <div className="text-sm text-gray-400">Avg Meeting Rate</div>
-                <div className="text-xs text-gray-500">vs. 6-8% industry</div>
-              </div>
-              <div className="text-center animate-fade-in-scale delay-200 opacity-0">
-                <div className="text-4xl font-bold text-[#FF6B35] mb-2">7-10x</div>
-                <div className="text-sm text-gray-400">ROI</div>
-                <div className="text-xs text-gray-500">Avg customer return</div>
-              </div>
-              <div className="text-center animate-fade-in-scale delay-300 opacity-0">
-                <div className="text-4xl font-bold text-[#FF6B35] mb-2">24hrs</div>
-                <div className="text-sm text-gray-400">To first campaign</div>
-                <div className="text-xs text-gray-500">From signup to live</div>
-              </div>
-            </div>
-
-            <div className="bg-[#242938] rounded-2xl border border-gray-700 p-8 shadow-2xl">
-              <div className="aspect-video bg-[#1A1F2E] rounded-xl overflow-hidden border border-gray-700">
-                <img
-                  src="/Gemini_Generated_Image_jkovk9jkovk9jkov.png"
-                  alt="Rekindle Dashboard showing lead revival campaigns, meetings booked, and AI-powered insights"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+            {/* Subtext */}
+            <p className="text-sm text-gray-500 animate-fade-in-up delay-500 opacity-0">
+              No Credit Card Required • 10-minute setup • Cancel anytime
+            </p>
           </div>
         </section>
 
