@@ -66,6 +66,7 @@ const SectionTitle = ({ eyebrow, children, subtitle }: { eyebrow?: string; child
 export function LandingPage() {
   const [dealValue, setDealValue] = useState(2500);
   const [meetingsGoal, setMeetingsGoal] = useState(40);
+  const [activeChannel, setActiveChannel] = useState('email');
 
   const navigate = (path: string) => {
     window.history.pushState({}, '', path);
@@ -76,6 +77,71 @@ export function LandingPage() {
   const revenue = meetingsGoal * 0.2 * dealValue;
   const roi = (revenue / monthlyCost).toFixed(1);
   const profit = revenue - monthlyCost;
+
+  const channels = [
+    {
+      id: 'email',
+      name: 'Email',
+      icon: Mail,
+      shortDesc: 'Personalized, researched',
+      description: 'AI-researched subject lines that reference recent company news, job changes, funding rounds, and tech stack updates. Each email is unique and contextual.',
+      gradient: 'from-blue-900/30 to-blue-800/20',
+      border: 'border-blue-700/50',
+      activeBorder: 'border-blue-500',
+      iconColor: 'text-blue-400',
+      stats: { open: '15.2%', reply: '4.8%', meeting: '2.1%' }
+    },
+    {
+      id: 'sms',
+      name: 'SMS',
+      icon: MessageSquare,
+      shortDesc: 'High open rate',
+      description: '98% open rate within 3 minutes. Perfect for time-sensitive follow-ups and quick questions. Short, punchy messages that get responses.',
+      gradient: 'from-green-900/30 to-green-800/20',
+      border: 'border-green-700/50',
+      activeBorder: 'border-green-500',
+      iconColor: 'text-green-400',
+      stats: { open: '98%', reply: '12%', meeting: '3.2%' }
+    },
+    {
+      id: 'whatsapp',
+      name: 'WhatsApp',
+      icon: MessageCircle,
+      shortDesc: 'Where execs read',
+      description: 'Perfect for international leads and busy executives. Voice notes, documents, and casual touchpoints. Works great in Europe and APAC markets.',
+      gradient: 'from-emerald-900/30 to-emerald-800/20',
+      border: 'border-emerald-700/50',
+      activeBorder: 'border-emerald-500',
+      iconColor: 'text-emerald-400',
+      stats: { open: '95%', reply: '18%', meeting: '4.5%' }
+    },
+    {
+      id: 'push',
+      name: 'Push',
+      icon: Bell,
+      shortDesc: 'Mobile alerts',
+      description: 'Mobile app push notifications for leads who have downloaded your app. Instant delivery, high visibility, perfect for re-engagement.',
+      gradient: 'from-purple-900/30 to-purple-800/20',
+      border: 'border-purple-700/50',
+      activeBorder: 'border-purple-500',
+      iconColor: 'text-purple-400',
+      stats: { open: '87%', reply: '8%', meeting: '1.8%' }
+    },
+    {
+      id: 'voicemail',
+      name: 'Voicemail',
+      icon: Phone,
+      shortDesc: 'AI voice',
+      description: 'AI-generated voice messages that sound natural and personalized. Dropped directly to voicemail (no ringing). Great for final touchpoints.',
+      gradient: 'from-orange-900/30 to-orange-800/20',
+      border: 'border-orange-700/50',
+      activeBorder: 'border-orange-500',
+      iconColor: 'text-orange-400',
+      stats: { open: '72%', reply: '6%', meeting: '1.5%' }
+    }
+  ];
+
+  const selectedChannel = channels.find(c => c.id === activeChannel) || channels[0];
 
   return (
     <div className="bg-[#1A1F2E] min-h-screen text-white">
@@ -363,35 +429,57 @@ export function LandingPage() {
               One Lead, Five Chances to Connect
             </SectionTitle>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
-              <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/20 rounded-xl p-6 border border-blue-700/50">
-                <Mail className="w-8 h-8 text-blue-400 mb-3" />
-                <div className="font-bold mb-2">Email</div>
-                <div className="text-xs text-gray-400">Personalized, researched</div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+              {channels.map((channel) => {
+                const Icon = channel.icon;
+                const isActive = activeChannel === channel.id;
+                return (
+                  <button
+                    key={channel.id}
+                    onClick={() => setActiveChannel(channel.id)}
+                    className={`bg-gradient-to-br ${channel.gradient} rounded-xl p-6 border-2 ${
+                      isActive ? channel.activeBorder : channel.border
+                    } transition-all duration-300 hover:scale-105 cursor-pointer text-left relative ${
+                      isActive ? 'ring-2 ring-offset-2 ring-offset-[#242938]' : ''
+                    }`}
+                    style={isActive ? { borderColor: channel.activeBorder.replace('border-', '') } : {}}
+                  >
+                    <Icon className={`w-8 h-8 ${channel.iconColor} mb-3`} />
+                    <div className="font-bold mb-2 flex items-center gap-2">
+                      {channel.name}
+                      {isActive && <CheckCircle className="w-4 h-4 text-green-400" />}
+                    </div>
+                    <div className="text-xs text-gray-400">{channel.shortDesc}</div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="max-w-5xl mx-auto bg-[#1A1F2E] rounded-2xl p-8 border border-gray-700 mb-16">
+              <div className="flex items-start gap-4 mb-6">
+                {(() => {
+                  const Icon = selectedChannel.icon;
+                  return <Icon className={`w-8 h-8 ${selectedChannel.iconColor} flex-shrink-0 mt-1`} />;
+                })()}
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold mb-3">{selectedChannel.name}</h3>
+                  <p className="text-gray-300 leading-relaxed">{selectedChannel.description}</p>
+                </div>
               </div>
 
-              <div className="bg-gradient-to-br from-green-900/30 to-green-800/20 rounded-xl p-6 border border-green-700/50">
-                <MessageSquare className="w-8 h-8 text-green-400 mb-3" />
-                <div className="font-bold mb-2">SMS</div>
-                <div className="text-xs text-gray-400">High open rate</div>
-              </div>
-
-              <div className="bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 rounded-xl p-6 border border-emerald-700/50">
-                <MessageCircle className="w-8 h-8 text-emerald-400 mb-3" />
-                <div className="font-bold mb-2">WhatsApp</div>
-                <div className="text-xs text-gray-400">Where execs read</div>
-              </div>
-
-              <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 rounded-xl p-6 border border-purple-700/50">
-                <Bell className="w-8 h-8 text-purple-400 mb-3" />
-                <div className="font-bold mb-2">Push</div>
-                <div className="text-xs text-gray-400">Mobile alerts</div>
-              </div>
-
-              <div className="bg-gradient-to-br from-orange-900/30 to-orange-800/20 rounded-xl p-6 border border-orange-700/50">
-                <Phone className="w-8 h-8 text-orange-400 mb-3" />
-                <div className="font-bold mb-2">Voicemail</div>
-                <div className="text-xs text-gray-400">AI voice</div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
+                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.open}</div>
+                  <div className="text-sm text-gray-400">Open Rate</div>
+                </div>
+                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
+                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.reply}</div>
+                  <div className="text-sm text-gray-400">Reply Rate</div>
+                </div>
+                <div className="bg-[#242938] rounded-xl p-4 border border-gray-700">
+                  <div className="text-3xl font-bold text-[#FF6B35] mb-1">{selectedChannel.stats.meeting}</div>
+                  <div className="text-sm text-gray-400">Meeting Rate</div>
+                </div>
               </div>
             </div>
 
