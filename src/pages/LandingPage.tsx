@@ -349,7 +349,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center">
             <img
-              src="/Rekindle_logo_cropped3.png"
+              src="/images/image.png"
               alt="Rekindle.ai - Lead Revival Platform"
               className="h-12 md:h-14 w-auto hover:opacity-90 transition-opacity"
             />
@@ -1316,7 +1316,7 @@ export function LandingPage() {
               <div className="bg-gradient-to-br from-[#FF6B35] to-[#F7931E] rounded-2xl p-6 border-2 border-[#FF6B35] transform scale-105 shadow-2xl">
                 <div className="text-center mb-4">
                   <img
-                    src="/Rekindle_logo_cropped3.png"
+                    src="/images/image.png"
                     alt="Rekindle.ai"
                     className="h-14 w-auto mx-auto mb-3"
                   />
@@ -1538,7 +1538,7 @@ export function LandingPage() {
           <div>
             <div className="flex items-center mb-4">
               <img
-                src="/Rekindle_logo_cropped3.png"
+                src="/images/image.png"
                 alt="Rekindle.ai"
                 className="h-10 w-auto"
               />

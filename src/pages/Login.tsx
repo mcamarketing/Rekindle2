@@ -34,7 +34,7 @@ export function Login() {
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <img
-            src="/Rekindle_logo_cropped3.png"
+            src="/images/image.png"
             alt="Rekindle.ai"
             className="h-16 w-auto"
           />
