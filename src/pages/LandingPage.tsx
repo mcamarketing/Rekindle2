@@ -1,3 +1,4 @@
+import '../styles/animations.css';
 import { useState } from 'react';
 import {
   CheckCircle,
