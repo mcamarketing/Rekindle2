@@ -1,5 +1,5 @@
 import '../styles/animations.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   CheckCircle,
   XCircle,
@@ -264,6 +264,25 @@ export function LandingPage() {
   const [dealValue, setDealValue] = useState(2500);
   const [meetingsGoal, setMeetingsGoal] = useState(40);
   const [activeChannel, setActiveChannel] = useState('email');
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const navigate = (path: string) => {
     window.history.pushState({}, '', path);
