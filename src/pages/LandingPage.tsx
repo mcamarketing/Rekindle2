@@ -389,7 +389,12 @@ export function LandingPage() {
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-[#FF6B35] opacity-20 blur-3xl rounded-full -z-10"></div>
 
           <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-4xl mx-auto mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center max-w-4xl mx-auto mb-16"
+            >
               <div className="inline-block bg-[#FF6B35]/20 border border-[#FF6B35] text-[#FF6B35] px-4 py-2 rounded-full text-sm font-semibold mb-6">
                 Built for Sales Managers & SDR Teams
               </div>
@@ -458,7 +463,7 @@ export function LandingPage() {
                   <span>Cancel anytime</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
               <div className="text-center">
