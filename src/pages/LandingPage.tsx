@@ -34,8 +34,8 @@ const COLORS = {
 };
 
 const Button = ({ children, primary = true, onClick }: { children: React.ReactNode; primary?: boolean; onClick?: () => void }) => {
-  const baseClasses = 'px-10 py-5 font-bold text-lg rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg';
-  const primaryClasses = 'bg-[#FF6B35] text-white hover:bg-[#F7931E]';
+  const baseClasses = 'px-10 py-5 font-bold text-lg rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg relative overflow-hidden group';
+  const primaryClasses = 'bg-[#FF6B35] text-white hover:bg-[#F7931E] hover:shadow-[0_0_50px_rgba(255,107,53,0.9)]';
   const secondaryClasses = 'bg-transparent border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white';
 
   return (
@@ -43,7 +43,10 @@ const Button = ({ children, primary = true, onClick }: { children: React.ReactNo
       className={`${baseClasses} ${primary ? primaryClasses : secondaryClasses}`}
       onClick={onClick}
     >
-      {children}
+      {primary && (
+        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+      )}
+      <span className="relative z-10">{children}</span>
     </button>
   );
 };
